@@ -4,6 +4,8 @@ import LandingPage from './LandingPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
 import BusinessDashboard from './pages/BusinessDashboard'
 import TransportDashboard from './pages/TransportDashboard'
 import DriverView from './pages/DriverView'
@@ -57,6 +59,8 @@ export default function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} />
       <Route path="/demo/*" element={<DemoApp />} />
       <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>
