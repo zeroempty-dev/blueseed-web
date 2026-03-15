@@ -13,7 +13,7 @@ export default function ProductSection() {
       </p>
       <div className="product-showcase">
         <div className="product-img">
-          <img src="https://images.unsplash.com/photo-1687226675098-82bfca59e5ba?auto=format&fit=crop&w=800&q=80" alt="Tata truck ready to ship" />
+          <img src="https://images.unsplash.com/photo-1720811559337-c59b75acc4de?auto=format&fit=crop&w=800&q=80" alt="Modern semi truck freight" />
         </div>
         <div className="product-content">
           <h3 className="section-title">Post. Choose. Ship.</h3>

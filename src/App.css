@@ -127,6 +127,18 @@ section.compact {
   filter: brightness(1.1);
 }
 
+.cta-outline {
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.cta-outline:hover {
+  background: var(--accent);
+  color: #000;
+  filter: none;
+}
+
 .section-tag {
   font-size: 0.75rem;
   letter-spacing: 0.25em;

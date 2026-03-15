@@ -8,8 +8,8 @@ export default function FeelTheOdds() {
       <div className="img-section">
         <div className="img-card">
           <img 
-            src="https://images.unsplash.com/photo-1558957543-ab3e457707a6?auto=format&fit=crop&w=800&q=80" 
-            alt="Tata truck logistics"
+            src="https://images.unsplash.com/photo-1769697756411-63c1bb2d7031?auto=format&fit=crop&w=800&q=80" 
+            alt="Modern truck logistics"
             loading="lazy"
           />
           <span className="caption">Every mile. Every load. Matched.</span>

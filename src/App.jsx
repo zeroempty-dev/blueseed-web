@@ -1,24 +1,62 @@
-import Nav from './components/Nav'
-import Hero from './components/Hero'
-import Crafted from './components/Crafted'
-import StorySection from './components/StorySection'
-import ProductSection from './components/ProductSection'
-import FeelTheOdds from './components/FeelTheOdds'
-import TrustSection from './components/TrustSection'
-import Footer from './components/Footer'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useAuth } from './context/AuthContext'
+import LandingPage from './LandingPage'
+import ProtectedRoute from './components/ProtectedRoute'
+import LoginPage from './pages/LoginPage'
+import BusinessDashboard from './pages/BusinessDashboard'
+import TransportDashboard from './pages/TransportDashboard'
+import DriverView from './pages/DriverView'
+import TrackingPage from './pages/TrackingPage'
+import AdminDashboard from './pages/AdminDashboard'
 import './App.css'
+
+function RootRedirect() {
+  const { user } = useAuth()
+  if (!user) return <Navigate to="/demo/login" replace />
+  return <Navigate to={`/demo/${user.role}`} replace />
+}
+
+function DemoApp() {
+  return (
+    <Routes>
+      <Route path="/" element={<RootRedirect />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/business/*" element={
+        <ProtectedRoute roles={['business']}>
+          <BusinessDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/transport/*" element={
+        <ProtectedRoute roles={['transport']}>
+          <TransportDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/driver/*" element={
+        <ProtectedRoute roles={['driver']}>
+          <DriverView />
+        </ProtectedRoute>
+      } />
+      <Route path="/tracking" element={
+        <ProtectedRoute roles={['business', 'transport', 'driver']}>
+          <TrackingPage />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/*" element={
+        <ProtectedRoute roles={['admin']}>
+          <AdminDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="*" element={<Navigate to="/demo" replace />} />
+    </Routes>
+  )
+}
 
 export default function App() {
   return (
-    <>
-      <Nav />
-      <Hero />
-      <Crafted />
-      <StorySection />
-      <ProductSection />
-      <FeelTheOdds />
-      <TrustSection />
-      <Footer />
-    </>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/demo/*" element={<DemoApp />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+  </Routes>
   )
 }
