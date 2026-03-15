@@ -8,7 +8,7 @@ export default function Footer() {
         Like all good things in life, earning a ZeroEmpty membership is not easy; but the possibility of unlocking a greater future — whether you're a Business Associate posting loads or a Transport Owner filling trips — zero empty returns, transparent pricing, direct connections — makes the effort worthwhile.
       </p>
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <a href="#" className="cta">Get started</a>
+        <Link to="/signup" className="cta">Get started</Link>
         <Link to="/demo" className="cta cta-outline">Take a look</Link>
       </div>
     </section>

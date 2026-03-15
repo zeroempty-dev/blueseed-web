@@ -10,6 +10,14 @@ const roles = [
   { role: 'admin',     icon: '⚙️', label: 'Admin',           email: 'admin@test.com',     desc: 'Manage platform operations' },
 ];
 
+// Fallback demo users when backend is unavailable
+const DEMO_USERS = [
+  { id: 'u1', email: 'business@test.com',  password: 'password', role: 'business',  name: 'Rajesh Kumar',    company: 'TN Exports Pvt Ltd' },
+  { id: 'u2', email: 'transport@test.com', password: 'password', role: 'transport', name: 'Suresh Logistics', company: 'Suresh Fleet Services' },
+  { id: 'u3', email: 'driver@test.com',    password: 'password', role: 'driver',    name: 'Anand M',         phone: '+91 98765 43210' },
+  { id: 'u4', email: 'admin@test.com',    password: 'password', role: 'admin',     name: 'Platform Admin' },
+];
+
 export default function LoginPage() {
   const [selectedRole, setSelectedRole] = useState(null);
   const [email, setEmail] = useState('');
@@ -34,10 +42,22 @@ export default function LoginPage() {
       const data = await login(email, password);
       loginUser(data.user);
       navigate(`/demo/${data.user.role}`);
+      return;
     } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      // Fallback: if backend unreachable, use demo users for offline demo
+      const user = DEMO_USERS.find(u => u.email === email && u.password === password);
+      if (user) {
+        const { password: _, ...safeUser } = user;
+        loginUser(safeUser);
+        navigate(`/demo/${user.role}`);
+        return;
+      }
+      setError(err?.response?.status === 401
+        ? 'Invalid credentials. Please try again.'
+        : 'Unable to connect. Use demo: business@test.com / password');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -56,7 +76,7 @@ export default function LoginPage() {
             Z
           </div>
           <h1 className="text-4xl font-bold text-white tracking-tight">ZeroEmpty</h1>
-          <p className="text-dark-100 mt-2 text-sm">Smart return-trip load matching for logistics</p>
+          <p className="text-dark-100 mt-2 text-sm">Logistics Reimagined</p>
         </div>
 
         {/* Role selection cards */}

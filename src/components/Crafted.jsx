@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Crafted() {
   return (
     <section id="crafted">
@@ -16,7 +18,7 @@ export default function Crafted() {
           <span className="caption">Direct load matching. No brokers in between.</span>
         </div>
       </div>
-      <a href="#get-started" className="cta" style={{ marginTop: '2rem' }}>Get started</a>
+      <Link to="/signup" className="cta" style={{ marginTop: '2rem' }}>Get started</Link>
     </section>
   )
 }
