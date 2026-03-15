@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logistics ZeroEmpty — not everyone gets it.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #000;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --text: #fff;
+      --muted: #888;
+      --accent: #00d26a;
+      --accent-dim: rgba(0, 210, 106, 0.15);
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+      backdrop-filter: blur(8px);
+    }
+
+    .logo {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    .nav-cta {
+      padding: 0.6rem 1.25rem;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .nav-cta:hover {
+      filter: brightness(1.1);
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    section.compact {
+      min-height: auto;
+      padding: 3rem 2rem;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #000 0%, #0a1628 50%, #000 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1566576912321-58a6e5a0c0ec?auto=format&fit=crop&w=1920&q=80') center/cover;
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    .hero .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta {
+      display: inline-block;
+      padding: 0.9rem 2rem;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .cta:hover {
+      filter: brightness(1.1);
+    }
+
+    .section-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .story-section .section-body {
+      max-width: 620px;
+    }
+
+    .img-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      max-width: 1100px;
+    }
+
+    .img-card {
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 210, 106, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .img-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 80px rgba(0, 210, 106, 0.2);
+    }
+
+    .img-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .img-card .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin-top: 2rem;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: var(--accent-dim);
+      border: 1px solid rgba(0, 210, 106, 0.2);
+      border-radius: 16px;
+      transition: all 0.3s;
+    }
+
+    .feature:hover {
+      border-color: rgba(0, 210, 106, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, var(--accent), #00b359);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .feature-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      padding: 2rem 0;
+    }
+
+    .trust-item {
+      text-align: center;
+      padding: 1.5rem 2rem;
+      background: var(--accent-dim);
+      border-radius: 16px;
+      border: 1px solid rgba(0, 210, 106, 0.2);
+      min-width: 140px;
+    }
+
+    .trust-value {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    .trust-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+
+    .product-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1100px;
+      margin-top: 2rem;
+      text-align: left;
+    }
+
+    .product-img {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-content {
+      padding: 1rem 0;
+    }
+
+    .product-content .section-title {
+      text-align: left;
+    }
+
+    .product-content .section-body {
+      margin-left: 0;
+      text-align: left;
+    }
+
+    .footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: #000;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-tagline {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    .quick-features {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .quick-features div {
+      text-align: center;
+    }
+
+    .quick-features strong {
+      color: var(--accent);
+    }
+
+    .quick-features span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 768px) {
+      .product-showcase {
+        grid-template-columns: 1fr;
+      }
+      .product-content .section-title,
+      .product-content .section-body {
+        text-align: center;
+      }
+      .product-content .section-body {
+        margin-left: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <span class="logo">Logistics ZeroEmpty</span>
+    <a href="#download" class="nav-cta">Get started</a>
+  </nav>
+
+  <section class="hero">
+    <div class="content">
+      <h1>A REFLECTION<br>OF CLARITY.</h1>
+      <p class="sub">Logistics ZeroEmpty. not everyone gets it.</p>
+      <a href="#crafted" class="cta">Learn more</a>
+    </div>
+  </section>
+
+  <section id="crafted">
+    <p class="section-tag">crafted for the</p>
+    <h2 class="section-title">creditworthy</h2>
+    <p class="section-body">Logistics ZeroEmpty is a members-only club that enables the trustworthy to make supply chain progress. better experiences, better rewards, better rules.</p>
+    <div class="img-section">
+      <div class="img-card">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80" alt="Logistics truck on highway" />
+        <span class="caption">Zero empty miles. Every route optimized.</span>
+      </div>
+      <div class="img-card">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" alt="Modern warehouse" />
+        <span class="caption">Real-time visibility across your network.</span>
+      </div>
+    </div>
+    <a href="#download" class="cta" style="margin-top: 2rem">Get started</a>
+  </section>
+
+  <section class="story-section compact">
+    <h2 class="section-title">NOT EVERYONE<br>MAKES IT IN.</h2>
+    <p class="section-body">the story of ZeroEmpty begins with trust. we believe businesses who've proven their trustworthiness deserve better: better experiences, better rewards, better rules. this is the status quo we're building. make it to the club, and experience the ascension yourself.</p>
+    <p class="section-body">We partner with premier carriers and shippers to offer unparalleled logistics experiences. Members earn cashback and exclusive access on every shipment. Join over 25 million creditworthy businesses who've transformed their supply chain into a rewarding experience.</p>
+    <div class="quick-features">
+      <div><strong>Scan & track</strong><br><span>Any shipment, any QR</span></div>
+      <div><strong>Tap to pay</strong><br><span>Freight on credit</span></div>
+      <div><strong>Send anywhere</strong><br><span>To any carrier</span></div>
+      <div><strong>Manage fleet</strong><br><span>Real-time vitals</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">all that you<br>deserve. and some more.</h2>
+    <p class="section-body">if you're a ZeroEmpty member, you're already a step ahead. every experience you unlock takes you higher up the pedestal.</p>
+    <div class="product-showcase">
+      <div class="product-img">
+        <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80" alt="Shipping containers" />
+      </div>
+      <div class="product-content">
+        <h3 class="section-title">do more with<br>your shipments</h3>
+        <p class="section-body">manage your logistics better: receive delivery reminders, uncover hidden costs, get spending insights, and discover ways to maximize efficiency. upgrade your supply chain. bit by bit.</p>
+      </div>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">📦</div>
+        <h3 class="feature-title">Track everything</h3>
+        <p class="feature-desc">Real-time visibility across your entire supply chain.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🚚</div>
+        <h3 class="feature-title">Zero empty miles</h3>
+        <p class="feature-desc">Optimize routes and fill every truck, every time.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <h3 class="feature-title">Trusted network</h3>
+        <p class="feature-desc">Connect with verified carriers and shippers only.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">feel the odds fall<br>in your favor</h2>
+    <p class="section-body">unlock exclusive rewards from select partners, and special access to curated logistics experiences.</p>
+    <div class="img-section">
+      <div class="img-card">
+        <img src="https://images.unsplash.com/photo-1553413077-8a8e2a819c24?auto=format&fit=crop&w=800&q=80" alt="Package delivery" />
+        <span class="caption">Every delivery. Every mile. Rewarded.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">your data isn't our business.<br>keeping it safe is.</h2>
+    <p class="section-body">all your shipment data and transactions are encrypted and secured. there's no room for mistakes because we didn't leave any. complete security. no asterisks.</p>
+    <div class="trust-bar">
+      <div class="trust-item">
+        <div class="trust-value">15M+</div>
+        <div class="trust-label">Shipments tracked</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-value">4.9/5</div>
+        <div class="trust-label">App Store</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-value">4.9/5</div>
+        <div class="trust-label">Play Store</div>
+      </div>
+    </div>
+    <p class="section-body" style="margin-top: 2rem; font-size: 0.9rem">trusted by 15M+ members — the proof writes itself</p>
+  </section>
+
+  <section id="download" class="footer">
+    <h2 class="footer-tagline">not everyone<br>gets it</h2>
+    <p class="footer-sub">like all good things in life, earning a ZeroEmpty membership is not easy; but the possibility of unlocking a greater future makes the effort worthwhile.</p>
+    <a href="#" class="cta">Get started</a>
+  </section>
+</body>
+</html>
