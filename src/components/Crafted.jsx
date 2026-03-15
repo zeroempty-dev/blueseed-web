@@ -16,7 +16,7 @@ export default function Crafted() {
           <span className="caption">Direct load matching. No brokers in between.</span>
         </div>
       </div>
-      <a href="#download" className="cta" style={{ marginTop: '2rem' }}>Get started</a>
+      <a href="#get-started" className="cta" style={{ marginTop: '2rem' }}>Get started</a>
     </section>
   )
 }
