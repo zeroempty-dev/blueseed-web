@@ -1,6 +1,7 @@
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { DashboardIcons } from './icons';
+import ThemeToggle from './ThemeToggle';
 
 const BASE = '/demo';
 
@@ -9,6 +10,7 @@ const navItems = {
     { path: `${BASE}/business`,        label: 'Dashboard',    icon: DashboardIcons.dashboard },
     { path: `${BASE}/business/post`,   label: 'Post Load',    icon: DashboardIcons.package },
     { path: `${BASE}/business/loads`,  label: 'My Loads',     icon: DashboardIcons.loads },
+    { path: `${BASE}/business/analytics`, label: 'Analytics', icon: DashboardIcons.analytics },
     { path: `${BASE}/tracking`,        label: 'Tracking',     icon: DashboardIcons.map },
   ],
   transport: [
@@ -16,10 +18,12 @@ const navItems = {
     { path: `${BASE}/transport/trucks`,   label: 'My Trucks',      icon: DashboardIcons.truck },
     { path: `${BASE}/transport/loads`,    label: 'Find Loads',     icon: DashboardIcons.search },
     { path: `${BASE}/transport/shipments`,label: 'Shipments',      icon: DashboardIcons.shipment },
+    { path: `${BASE}/transport/analytics`,label: 'Analytics',      icon: DashboardIcons.analytics },
     { path: `${BASE}/tracking`,           label: 'Tracking',       icon: DashboardIcons.map },
   ],
   driver: [
     { path: `${BASE}/driver`,    label: 'My Trip',   icon: DashboardIcons.route },
+    { path: `${BASE}/driver/analytics`, label: 'Analytics', icon: DashboardIcons.analytics },
     { path: `${BASE}/tracking`,  label: 'Map',       icon: DashboardIcons.map },
   ],
   admin: [
@@ -27,6 +31,7 @@ const navItems = {
     { path: `${BASE}/admin/trucks`,     label: 'Trucks',       icon: DashboardIcons.truck },
     { path: `${BASE}/admin/businesses`, label: 'Businesses',   icon: DashboardIcons.business },
     { path: `${BASE}/admin/loads`,      label: 'All Loads',    icon: DashboardIcons.package },
+    { path: `${BASE}/admin/analytics`,  label: 'Analytics',    icon: DashboardIcons.analytics },
   ],
 };
 
@@ -94,6 +99,9 @@ export default function Sidebar({ isOpen, onClose }) {
 
       {/* User info */}
       <div className="p-4 border-t border-white/5">
+        <div className="flex items-center justify-between mb-3">
+          <ThemeToggle />
+        </div>
         <div className="glass-card-static p-3 mb-3">
           <p className="text-white text-sm font-medium truncate">{user?.name}</p>
           <p className="text-dark-200 text-xs capitalize">{user?.role}</p>

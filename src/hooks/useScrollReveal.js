@@ -20,8 +20,8 @@ export function useScrollReveal() {
       },
       {
         root: null,
-        rootMargin: '0px 0px -50px 0px',
-        threshold: 0
+        rootMargin: '0px 0px -80px 0px',
+        threshold: 0.1
       }
     )
     observer.observe(el)

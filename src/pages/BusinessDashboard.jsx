@@ -6,6 +6,7 @@ import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
 import { DashboardIcons } from '../components/icons';
 import { getLoads, createLoad, getBusinessAnalytics } from '../services/api';
+import AnalyticsPage from './AnalyticsPage';
 import {
   BarChart,
   Bar,
@@ -378,6 +379,7 @@ export default function BusinessDashboard() {
         <Route index element={<BusinessHome />} />
         <Route path="post" element={<PostLoadForm />} />
         <Route path="loads" element={<MyLoads />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
       </Routes>
     </DashboardLayout>
   );

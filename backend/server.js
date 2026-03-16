@@ -10,6 +10,8 @@ const trackingRoutes  = require('./routes/tracking');
 const adminRoutes     = require('./routes/admin');
 const driversRoutes   = require('./routes/drivers');
 const businessAnalyticsRoutes = require('./routes/business-analytics');
+const transportAnalyticsRoutes = require('./routes/transport-analytics');
+const analyticsRoutes = require('./routes/analytics');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -28,6 +30,8 @@ app.use('/api/tracking',  trackingRoutes);
 app.use('/api/admin',     adminRoutes);
 app.use('/api/drivers',   driversRoutes);
 app.use('/api/business',  businessAnalyticsRoutes);
+app.use('/api/transport', transportAnalyticsRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

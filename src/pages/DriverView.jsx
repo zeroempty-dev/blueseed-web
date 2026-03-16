@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import DashboardLayout from '../components/DashboardLayout';
 import StatusBadge from '../components/StatusBadge';
 import MapView from '../components/MapView';
 import { DashboardIcons } from '../components/icons';
 import { getShipments, updateShipmentStatus, getTracking } from '../services/api';
+import AnalyticsPage from './AnalyticsPage';
 
 const statusFlow = [
   { status: 'matched',    label: 'Matched',    icon: DashboardIcons.matched },
@@ -65,7 +67,9 @@ export default function DriverView() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-2xl mx-auto">
+      <Routes>
+        <Route index element={
+    <div className="max-w-2xl mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-white">My Trip</h1>
           <p className="text-dark-200 text-sm mt-1">View your assigned trip and update status</p>
@@ -172,6 +176,9 @@ export default function DriverView() {
           </div>
         )}
       </div>
+        } />
+        <Route path="analytics" element={<AnalyticsPage />} />
+      </Routes>
     </DashboardLayout>
   );
 }

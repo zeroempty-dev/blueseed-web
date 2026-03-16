@@ -21,6 +21,10 @@ import {
   MapPin,
   CircleDot,
   Flag,
+  BarChart2,
+  Activity,
+  Clock,
+  AlertCircle,
 } from 'lucide-react';
 
 const iconSize = 20;
@@ -46,4 +50,8 @@ export const DashboardIcons = {
   inTransit: <CircleDot {...iconProps} />,
   completed: <Flag {...iconProps} />,
   check: <Check {...iconProps} />,
+  analytics: <BarChart2 {...iconProps} />,
+  activity: <Activity {...iconProps} />,
+  clock: <Clock {...iconProps} />,
+  alert: <AlertCircle {...iconProps} />,
 };

@@ -4,6 +4,7 @@ import DashboardLayout from '../components/DashboardLayout';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
 import { DashboardIcons } from '../components/icons';
+import AnalyticsPage from './AnalyticsPage';
 import {
   getAdminStats, getAdminTrucks, getAdminBusinesses,
   getAdminDrivers, verifyTruck, verifyBusiness, getLoads,
@@ -218,6 +219,7 @@ export default function AdminDashboard() {
         <Route path="trucks" element={<AdminTrucks />} />
         <Route path="businesses" element={<AdminBusinesses />} />
         <Route path="loads" element={<AdminLoads />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
       </Routes>
     </DashboardLayout>
   );

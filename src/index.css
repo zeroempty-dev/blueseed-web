@@ -1,4 +1,6 @@
-:root {
+/* Dark theme (default) */
+:root,
+[data-theme="dark"] {
   --bg: #030303;
   --surface: #0d1510;
   --border: rgba(0, 255, 136, 0.2);
@@ -9,6 +11,18 @@
   --accent-glow: rgba(0, 255, 136, 0.4);
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --text: #0f0f0f;
+  --muted: #6b7280;
+  --accent: #059669;
+  --accent-dim: rgba(5, 150, 105, 0.12);
+  --accent-glow: rgba(5, 150, 105, 0.25);
 }
 
 * {

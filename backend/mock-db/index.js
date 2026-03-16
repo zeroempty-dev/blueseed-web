@@ -75,10 +75,15 @@ const loads = [
   { id: 'l6', businessId: 'u1', pickupCity: 'Erode',     dropCity: 'Bangalore',  cargoType: 'Chemicals',      weight: 6,  price: 14000, pickupTime: '2026-03-17T11:00:00', status: 'posted',    matchedTruckId: null, assignedDriverId: null, createdAt: '2026-03-14T14:00:00' },
   { id: 'l7', businessId: 'u5', pickupCity: 'Trichy',    dropCity: 'Coimbatore', cargoType: 'Cotton Bales',   weight: 8,  price: 11000, pickupTime: '2026-03-18T07:00:00', status: 'posted',    matchedTruckId: null, assignedDriverId: null, createdAt: '2026-03-14T15:00:00' },
   { id: 'l8', businessId: 'u1', pickupCity: 'Bangalore', dropCity: 'Salem',      cargoType: 'Furniture',      weight: 4,  price: 9500,  pickupTime: '2026-03-18T10:00:00', status: 'posted',    matchedTruckId: null, assignedDriverId: null, createdAt: '2026-03-14T16:00:00' },
+  // Historical loads for transport analytics
+  { id: 'l0f', businessId: 'u1', pickupCity: 'Bangalore', dropCity: 'Chennai', cargoType: 'Electronics', weight: 5, price: 20000, status: 'delivered', matchedTruckId: 't1', assignedDriverId: 'd1', createdAt: '2025-12-08T10:00:00' },
+  { id: 'l0g', businessId: 'u5', pickupCity: 'Salem', dropCity: 'Chennai', cargoType: 'Textiles', weight: 4, price: 14000, status: 'delivered', matchedTruckId: 't2', assignedDriverId: 'd2', createdAt: '2025-12-12T11:00:00' },
+  { id: 'l0h', businessId: 'u1', pickupCity: 'Chennai', dropCity: 'Bangalore', cargoType: 'Auto Parts', weight: 6, price: 21000, status: 'delivered', matchedTruckId: 't1', assignedDriverId: 'd1', createdAt: '2025-12-18T09:00:00' },
 ];
 
 // ── Shipments ────────────────────────────────────────────────────
 const shipments = [
+  // Active
   {
     id: 's1',
     loadId: 'l5',
@@ -90,12 +95,26 @@ const shipments = [
     progress: 0.35,
     startedAt: '2026-03-15T09:00:00',
     updatedAt: '2026-03-15T14:00:00',
+    expectedDeliveryAt: '2026-03-16T18:00:00',
+    deliveredAt: null,
+    price: 25000,
+    weight: 10,
     statusHistory: [
       { status: 'matched',   at: '2026-03-14T10:00:00' },
       { status: 'picked-up', at: '2026-03-15T09:00:00' },
       { status: 'in-transit', at: '2026-03-15T09:30:00' },
     ]
   },
+  // Historical delivered (for analytics)
+  { id: 's0a', loadId: 'l0a', truckId: 't1', driverId: 'd1', status: 'delivered', pickupCity: 'Chennai', dropCity: 'Bangalore', progress: 1, startedAt: '2026-01-15T08:00:00', updatedAt: '2026-01-15T16:00:00', expectedDeliveryAt: '2026-01-15T18:00:00', deliveredAt: '2026-01-15T15:30:00', price: 22000, weight: 4 },
+  { id: 's0b', loadId: 'l0b', truckId: 't2', driverId: 'd2', status: 'delivered', pickupCity: 'Salem', dropCity: 'Chennai', progress: 1, startedAt: '2026-01-20T09:00:00', updatedAt: '2026-01-20T20:00:00', expectedDeliveryAt: '2026-01-20T21:00:00', deliveredAt: '2026-01-20T22:30:00', price: 15000, weight: 6 },
+  { id: 's0c', loadId: 'l0c', truckId: 't3', driverId: 'd1', status: 'delivered', pickupCity: 'Bangalore', dropCity: 'Coimbatore', progress: 1, startedAt: '2026-02-05T10:00:00', updatedAt: '2026-02-05T19:00:00', expectedDeliveryAt: '2026-02-05T20:00:00', deliveredAt: '2026-02-05T18:00:00', price: 28000, weight: 5 },
+  { id: 's0d', loadId: 'l0d', truckId: 't4', driverId: null, status: 'delivered', pickupCity: 'Erode', dropCity: 'Bangalore', progress: 1, startedAt: '2026-02-12T07:00:00', updatedAt: '2026-02-12T16:00:00', expectedDeliveryAt: '2026-02-12T17:00:00', deliveredAt: '2026-02-12T16:45:00', price: 12000, weight: 3 },
+  { id: 's0e', loadId: 'l0e', truckId: 't5', driverId: 'd2', status: 'delivered', pickupCity: 'Madurai', dropCity: 'Chennai', progress: 1, startedAt: '2026-02-25T08:00:00', updatedAt: '2026-02-25T22:00:00', expectedDeliveryAt: '2026-02-25T23:00:00', deliveredAt: '2026-02-26T01:00:00', price: 16000, weight: 4 },
+  // More for analytics variety
+  { id: 's0f', loadId: 'l0f', truckId: 't1', driverId: 'd1', status: 'delivered', pickupCity: 'Bangalore', dropCity: 'Chennai', progress: 1, startedAt: '2025-12-10T08:00:00', updatedAt: '2025-12-10T17:00:00', expectedDeliveryAt: '2025-12-10T18:00:00', deliveredAt: '2025-12-10T16:00:00', price: 20000, weight: 5 },
+  { id: 's0g', loadId: 'l0g', truckId: 't2', driverId: 'd2', status: 'delivered', pickupCity: 'Salem', dropCity: 'Chennai', progress: 1, startedAt: '2025-12-15T09:00:00', updatedAt: '2025-12-15T19:00:00', expectedDeliveryAt: '2025-12-15T20:00:00', deliveredAt: '2025-12-15T19:30:00', price: 14000, weight: 4 },
+  { id: 's0h', loadId: 'l0h', truckId: 't1', driverId: 'd1', status: 'delivered', pickupCity: 'Chennai', dropCity: 'Bangalore', progress: 1, startedAt: '2025-12-20T07:00:00', updatedAt: '2025-12-20T15:00:00', expectedDeliveryAt: '2025-12-20T16:00:00', deliveredAt: '2025-12-20T14:30:00', price: 21000, weight: 6 },
 ];
 
 // ── Businesses ───────────────────────────────────────────────────

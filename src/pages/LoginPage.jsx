@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { login } from '../services/api';
 import { DashboardIcons } from '../components/icons';
+import ThemeToggle from '../components/ThemeToggle';
 
 const roles = [
   { role: 'business',  icon: DashboardIcons.business, label: 'Business',       email: 'business@test.com',  desc: 'Post return loads for your shipments' },
@@ -63,6 +64,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-brand-600/10 blur-3xl"></div>

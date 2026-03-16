@@ -2,13 +2,28 @@ import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import DashboardLayout from '../components/DashboardLayout';
-import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
 import { DashboardIcons } from '../components/icons';
 import {
   getTrucks, createTruck, getMatchedLoads, getShipments,
-  createShipment, assignDriver, getDrivers,
+  createShipment, assignDriver, getDrivers, getTransportAnalytics,
 } from '../services/api';
+import AnalyticsPage from './AnalyticsPage';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  LineChart,
+  Line,
+} from 'recharts';
 
 const CITIES = ['Chennai', 'Bangalore', 'Salem', 'Erode', 'Coimbatore', 'Madurai', 'Trichy', 'Vellore', 'Hosur', 'Krishnagiri'];
 const TRUCK_TYPES = ['Container', 'Open Body', 'Flatbed', 'Refrigerated', 'Tanker'];
@@ -331,49 +346,432 @@ function Shipments() {
   );
 }
 
-function TransportHome() {
+function TransportDashboardHome() {
   const { user } = useAuth();
-  const [trucks, setTrucks] = useState([]);
-  const [shipments, setShipmentsList] = useState([]);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getTrucks({ ownerId: user.id }).then(setTrucks);
-    getShipments().then(setShipmentsList);
+    getTransportAnalytics(user.id)
+      .then(setData)
+      .catch(() => setData(null))
+      .finally(() => setLoading(false));
   }, [user.id]);
 
+  if (loading) {
+    return (
+      <div className="animate-fade-in-up">
+        <h2 className="text-2xl font-bold text-white mb-6">Fleet Dashboard</h2>
+        <div className="glass-card p-12 text-center text-dark-300">Loading dashboard...</div>
+      </div>
+    );
+  }
+
+  const chartTooltip = ({ active, payload }) => {
+    if (!active || !payload?.length) return null;
+    return (
+      <div className="bg-dark-700 border border-white/10 rounded-lg px-3 py-2 shadow-xl">
+        {payload.map((p) => (
+          <p key={p.dataKey} className="text-white text-sm">{p.name}: {typeof p.value === 'number' ? p.value.toLocaleString() : p.value}</p>
+        ))}
+      </div>
+    );
+  };
+
+  const tripTiming = data?.tripTiming || data?.mockTripTiming || { early: 0, onTime: 0, late: 0 };
+  const timingData = [
+    { name: 'Early', value: tripTiming.early, color: '#22c55e' },
+    { name: 'On time', value: tripTiming.onTime, color: '#4c6ef5' },
+    { name: 'Late', value: tripTiming.late, color: '#f59e0b' },
+  ].filter((d) => d.value > 0);
+
+  const truckGoodsChartData = (data?.truckGoodsList?.length > 0 ? data.truckGoodsList : data?.mockTruckGoods || []).map((t) => ({ name: t.truckNumber, trips: t.goodsCount }));
+  const regionTripsChartData = (data?.regionTrips?.length > 0 ? data.regionTrips : data?.mockRegionTrips || []).map((r) => ({ route: r.route?.replace('–', ' → ') || r.route, count: r.count }));
+  const regionReturnsChartData = (data?.regionReturns?.length > 0 ? data.regionReturns : data?.mockRegionReturns || []).map((r) => ({ route: r.route?.replace('–', ' → ') || r.route, avgReturn: r.avgReturn }));
+  const driverChartData = (data?.driverStats?.length > 0 ? data.driverStats : data?.mockDriverStats || []).map((d) => ({ name: d.driverName, trips: d.tripCount }));
+  const tripsByMonthData = data?.tripsByMonth || [];
+
   return (
-    <div>
+    <div className="animate-fade-in-up">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white">Fleet Dashboard</h1>
-        <p className="text-dark-200 mt-1">Manage trucks, find return loads, and track shipments</p>
+        <p className="text-dark-200 mt-1">Insights on vehicles, drivers, regions, and delivery performance</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard icon={DashboardIcons.truck} label="Total Trucks" value={trucks.length} gradient="gradient-blue" delay="delay-100" />
-        <StatCard icon={DashboardIcons.delivered} label="Available" value={trucks.filter(t => t.status === 'available').length} gradient="gradient-green" delay="delay-200" />
-        <StatCard icon={DashboardIcons.shipment} label="Active Shipments" value={shipments.filter(s => s.status !== 'delivered').length} gradient="gradient-amber" delay="delay-300" />
-        <StatCard icon={DashboardIcons.completed} label="Completed" value={shipments.filter(s => s.status === 'delivered').length} gradient="gradient-purple" delay="delay-400" />
-      </div>
-
-      {/* Quick truck overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {trucks.map((truck, i) => (
-          <div key={truck.id} className="glass-card p-5 animate-fade-in-up" style={{ animationDelay: `${(i + 2) * 100}ms` }}>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
-              <div>
-                <p className="text-white font-semibold">{truck.truckNumber}</p>
-                <p className="text-dark-200 text-xs">{truck.truckType} • {truck.capacity}T</p>
-              </div>
+      {/* Trips over time */}
+      {tripsByMonthData.length > 0 && (
+        <div className="glass-card-static p-6 mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl gradient-blue flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.route}</div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">Trips over time</h2>
+              <p className="text-dark-200 text-sm">Completed deliveries by month</p>
             </div>
-            <div className="flex items-center gap-2 text-sm mb-2">
-              <span className="text-brand-400">{truck.currentCity}</span>
-              <span className="text-dark-400">→</span>
-              <span className="text-brand-400">{truck.destinationCity}</span>
-            </div>
-            <StatusBadge status={truck.status} />
           </div>
-        ))}
+          <div className="h-56">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={tripsByMonthData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                <XAxis dataKey="month" stroke="#909296" fontSize={12} tickLine={false} />
+                <YAxis stroke="#909296" fontSize={12} tickLine={false} />
+                <Tooltip content={chartTooltip} cursor={{ fill: 'rgba(76, 110, 245, 0.08)' }} />
+                <Line type="monotone" dataKey="trips" stroke="#4c6ef5" strokeWidth={2} dot={{ fill: '#4c6ef5' }} name="Trips" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* 1. Running transports */}
+      <div className="glass-card-static overflow-hidden mb-6">
+        <div className="p-4 border-b border-white/5 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
+          <div>
+            <h2 className="text-lg font-semibold text-white">Transports currently running</h2>
+            <p className="text-dark-200 text-sm">Active in-transit shipments</p>
+          </div>
+        </div>
+        {data?.runningTransports?.length > 0 ? (
+          <div className="data-table-wrapper">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Truck</th>
+                  <th>Driver</th>
+                  <th>Route</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.runningTransports.map((t) => (
+                  <tr key={t.id}>
+                    <td><span className="text-white font-medium">{t.truckNumber}</span></td>
+                    <td>{t.driverName}</td>
+                    <td><span className="text-brand-400">{t.route}</span></td>
+                    <td>
+                      <div className="w-24 bg-dark-600 rounded-full h-2">
+                        <div className="h-2 rounded-full gradient-blue" style={{ width: `${t.progress}%` }} />
+                      </div>
+                    </td>
+                    <td><StatusBadge status={t.status} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-12 text-dark-300">No transports currently running</div>
+        )}
+      </div>
+
+      {/* 2 & 4. Max / Min goods by vehicle + chart */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div className="glass-card-static p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl gradient-green flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">Most goods delivered</h2>
+              <p className="text-dark-200 text-sm">Vehicle with highest trip count</p>
+            </div>
+          </div>
+          {data?.maxGoodsVehicle ? (
+            <div className="flex items-baseline gap-2">
+              <span className="text-success text-3xl font-bold">{data.maxGoodsVehicle.truckNumber}</span>
+              <span className="text-dark-200 text-sm">— {data.maxGoodsVehicle.goodsCount} trips</span>
+            </div>
+          ) : truckGoodsChartData[0] ? (
+            <div className="flex items-baseline gap-2">
+              <span className="text-success text-3xl font-bold">{truckGoodsChartData[0].name}</span>
+              <span className="text-dark-200 text-sm">— {truckGoodsChartData[0].trips} trips</span>
+            </div>
+          ) : (
+            <p className="text-dark-300">No data yet</p>
+          )}
+        </div>
+        <div className="glass-card-static p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl gradient-amber flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">Least goods delivered</h2>
+              <p className="text-dark-200 text-sm">Vehicle with lowest trip count</p>
+            </div>
+          </div>
+          {data?.minGoodsVehicle ? (
+            <div className="flex items-baseline gap-2">
+              <span className="text-warning text-3xl font-bold">{data.minGoodsVehicle.truckNumber}</span>
+              <span className="text-dark-200 text-sm">— {data.minGoodsVehicle.goodsCount} trips</span>
+            </div>
+          ) : truckGoodsChartData.length > 0 ? (
+            <div className="flex items-baseline gap-2">
+              <span className="text-warning text-3xl font-bold">{truckGoodsChartData[truckGoodsChartData.length - 1].name}</span>
+              <span className="text-dark-200 text-sm">— {truckGoodsChartData[truckGoodsChartData.length - 1].trips} trips</span>
+            </div>
+          ) : (
+            <p className="text-dark-300">No data yet</p>
+          )}
+        </div>
+        <div className="glass-card-static p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">Goods by vehicle</h2>
+              <p className="text-dark-200 text-sm">Trip count per truck</p>
+            </div>
+          </div>
+          {truckGoodsChartData.length > 0 ? (
+            <div className="h-40">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={truckGoodsChartData} layout="vertical" margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                  <XAxis type="number" stroke="#909296" fontSize={11} tickLine={false} />
+                  <YAxis type="category" dataKey="name" stroke="#909296" fontSize={11} tickLine={false} width={80} />
+                  <Tooltip content={chartTooltip} cursor={{ fill: 'rgba(76, 110, 245, 0.08)' }} />
+                  <Bar dataKey="trips" fill="#14b8a6" radius={[0, 4, 4, 0]} name="Trips" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <p className="text-dark-300">No data yet</p>
+          )}
+        </div>
+      </div>
+
+      {/* 3. Driver–vehicle mapping */}
+      <div className="glass-card-static overflow-hidden mb-6">
+        <div className="p-4 border-b border-white/5 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl gradient-blue flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.driver}</div>
+          <div>
+            <h2 className="text-lg font-semibold text-white">Driver–vehicle assignments</h2>
+            <p className="text-dark-200 text-sm">Who is driving which vehicle</p>
+          </div>
+        </div>
+        {data?.driverVehicleMap?.length > 0 ? (
+          <div className="data-table-wrapper">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th>Vehicle</th>
+                  <th>Route</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.driverVehicleMap.map((m, i) => (
+                  <tr key={i}>
+                    <td><span className="text-white font-medium">{m.driverName}</span></td>
+                    <td>{m.truckNumber}</td>
+                    <td><span className="text-brand-400">{m.route}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-12 text-dark-300">No active driver–vehicle assignments</div>
+        )}
+      </div>
+
+      {/* 5. Top driver + delivery time comparison + chart */}
+      <div className="glass-card-static overflow-hidden mb-6">
+        <div className="p-4 border-b border-white/5 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl gradient-purple flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.driver}</div>
+          <div>
+            <h2 className="text-lg font-semibold text-white">Driver performance</h2>
+            <p className="text-dark-200 text-sm">Most trips + delivery time comparison</p>
+          </div>
+        </div>
+        <div className="p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              {data?.topDriver ? (
+                <div className="mb-4">
+                  <p className="text-dark-200 text-sm">Top driver by trips</p>
+                  <p className="text-white text-xl font-bold">{data.topDriver.driverName}</p>
+                  <p className="text-brand-400 text-sm">{data.topDriver.tripCount} completed trips</p>
+                </div>
+              ) : driverChartData[0] ? (
+                <div className="mb-4">
+                  <p className="text-dark-200 text-sm">Top driver by trips</p>
+                  <p className="text-white text-xl font-bold">{driverChartData[0].name}</p>
+                  <p className="text-brand-400 text-sm">{driverChartData[0].trips} completed trips</p>
+                </div>
+              ) : null}
+              {data?.driverStats?.length > 0 ? (
+                <div className="data-table-wrapper">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Driver</th>
+                        <th>Trips</th>
+                        <th>Early</th>
+                        <th>On time</th>
+                        <th>Late</th>
+                        <th>Avg delivery diff (mins)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.driverStats.map((d) => (
+                        <tr key={d.driverId}>
+                          <td><span className="text-white font-medium">{d.driverName}</span></td>
+                          <td>{d.tripCount}</td>
+                          <td><span className="text-success">{d.early}</span></td>
+                          <td><span className="text-brand-400">{d.onTime}</span></td>
+                          <td><span className="text-warning">{d.late}</span></td>
+                          <td>{d.avgDeliveryDiffMinutes > 0 ? `+${d.avgDeliveryDiffMinutes}` : d.avgDeliveryDiffMinutes}m</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center py-8 text-dark-300">No driver stats yet</div>
+              )}
+            </div>
+            {driverChartData.length > 0 && (
+              <div>
+                <p className="text-dark-200 text-sm mb-3">Trips by driver</p>
+                <div className="h-48">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={driverChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                      <XAxis dataKey="name" stroke="#909296" fontSize={11} tickLine={false} />
+                      <YAxis stroke="#909296" fontSize={12} tickLine={false} />
+                      <Tooltip content={chartTooltip} cursor={{ fill: 'rgba(139, 92, 246, 0.08)' }} />
+                      <Bar dataKey="trips" fill="#8b5cf6" radius={[4, 4, 0, 0]} name="Trips" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 6. Early / on time / late */}
+      <div className="glass-card-static p-6 mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
+          <div>
+            <h2 className="text-lg font-semibold text-white">Trip delivery timing</h2>
+            <p className="text-dark-200 text-sm">Early, on time, or late</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+          <div className="bg-dark-600/50 rounded-xl p-4 border border-success/20">
+            <p className="text-dark-200 text-xs uppercase">Early</p>
+            <p className="text-success text-2xl font-bold">{tripTiming.early}</p>
+          </div>
+          <div className="bg-dark-600/50 rounded-xl p-4 border border-brand-500/20">
+            <p className="text-dark-200 text-xs uppercase">On time</p>
+            <p className="text-brand-400 text-2xl font-bold">{tripTiming.onTime}</p>
+          </div>
+          <div className="bg-dark-600/50 rounded-xl p-4 border border-warning/20">
+            <p className="text-dark-200 text-xs uppercase">Late</p>
+            <p className="text-warning text-2xl font-bold">{tripTiming.late}</p>
+          </div>
+        </div>
+        {(timingData.length > 0 || tripTiming.early + tripTiming.onTime + tripTiming.late > 0) && (
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={timingData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={60} label={(e) => `${e.name}: ${e.value}`}>
+                  {timingData.map((entry, i) => (
+                    <Cell key={i} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </div>
+
+      {/* 7 & 8. Region trips + region returns */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="glass-card-static p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl gradient-blue flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.route}</div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">Most active regions</h2>
+              <p className="text-dark-200 text-sm">Routes by trip count</p>
+            </div>
+          </div>
+          {regionTripsChartData.length > 0 ? (
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={regionTripsChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                  <XAxis dataKey="route" stroke="#909296" fontSize={11} tickLine={false} />
+                  <YAxis stroke="#909296" fontSize={12} tickLine={false} />
+                  <Tooltip content={chartTooltip} cursor={{ fill: 'rgba(76, 110, 245, 0.08)' }} />
+                  <Bar dataKey="count" fill="#4c6ef5" radius={[4, 4, 0, 0]} name="Trips" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <p className="text-dark-300">No region data yet</p>
+          )}
+        </div>
+        <div className="glass-card-static p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl gradient-green flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.delivered}</div>
+            <div>
+              <h2 className="text-lg font-semibold text-white">Region returns</h2>
+              <p className="text-dark-200 text-sm">Avg return (₹) per trip by route</p>
+            </div>
+          </div>
+          {regionReturnsChartData.length > 0 ? (
+            <>
+              <div className="h-64 mb-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={regionReturnsChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                    <XAxis dataKey="route" stroke="#909296" fontSize={11} tickLine={false} />
+                    <YAxis stroke="#909296" fontSize={12} tickLine={false} tickFormatter={(v) => `₹${(v / 1000)}k`} />
+                    <Tooltip content={({ active, payload }) => active && payload?.[0] ? (
+                      <div className="bg-dark-700 border border-white/10 rounded-lg px-3 py-2 shadow-xl">
+                        <p className="text-white text-sm">Avg: ₹{payload[0].value?.toLocaleString()}/trip</p>
+                      </div>
+                    ) : null} cursor={{ fill: 'rgba(34, 197, 94, 0.08)' }} />
+                    <Bar dataKey="avgReturn" fill="#22c55e" radius={[4, 4, 0, 0]} name="Avg return (₹)" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {data?.highestReturnRegion ? (
+                  <div className="bg-success/10 border border-success/20 rounded-xl p-3">
+                    <p className="text-dark-200 text-xs uppercase">Highest</p>
+                    <p className="text-success font-bold text-sm truncate">{data.highestReturnRegion.route.replace('–', ' → ')}</p>
+                    <p className="text-success">₹{data.highestReturnRegion.avgReturn?.toLocaleString()}</p>
+                  </div>
+                ) : regionReturnsChartData[0] ? (
+                  <div className="bg-success/10 border border-success/20 rounded-xl p-3">
+                    <p className="text-dark-200 text-xs uppercase">Highest</p>
+                    <p className="text-success font-bold text-sm truncate">{regionReturnsChartData[0].route}</p>
+                    <p className="text-success">₹{regionReturnsChartData[0].avgReturn?.toLocaleString()}</p>
+                  </div>
+                ) : null}
+                {data?.lowestReturnRegion ? (
+                  <div className="bg-warning/10 border border-warning/20 rounded-xl p-3">
+                    <p className="text-dark-200 text-xs uppercase">Lowest</p>
+                    <p className="text-warning font-bold text-sm truncate">{data.lowestReturnRegion.route.replace('–', ' → ')}</p>
+                    <p className="text-warning">₹{data.lowestReturnRegion.avgReturn?.toLocaleString()}</p>
+                  </div>
+                ) : regionReturnsChartData.length > 0 ? (
+                  <div className="bg-warning/10 border border-warning/20 rounded-xl p-3">
+                    <p className="text-dark-200 text-xs uppercase">Lowest</p>
+                    <p className="text-warning font-bold text-sm truncate">{regionReturnsChartData[regionReturnsChartData.length - 1].route}</p>
+                    <p className="text-warning">₹{regionReturnsChartData[regionReturnsChartData.length - 1].avgReturn?.toLocaleString()}</p>
+                  </div>
+                ) : null}
+              </div>
+            </>
+          ) : (
+            <p className="text-dark-300">No region return data yet</p>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -383,10 +781,11 @@ export default function TransportDashboard() {
   return (
     <DashboardLayout>
       <Routes>
-        <Route index element={<TransportHome />} />
+        <Route index element={<TransportDashboardHome />} />
         <Route path="trucks" element={<MyTrucks />} />
         <Route path="loads" element={<FindLoads />} />
         <Route path="shipments" element={<Shipments />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
       </Routes>
     </DashboardLayout>
   );

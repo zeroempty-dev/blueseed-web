@@ -82,4 +82,12 @@ export const getDrivers = () =>
 export const getBusinessAnalytics = (businessId) =>
   api.get(`/business/${businessId}/analytics`).then(r => r.data);
 
+// Transport analytics
+export const getTransportAnalytics = (ownerId) =>
+  api.get(`/transport/${ownerId}/analytics`).then(r => r.data);
+
+// Unified analytics (all personas)
+export const getAnalytics = (userId) =>
+  api.get(`/analytics/${userId}`).then(r => r.data);
+
 export default api;
