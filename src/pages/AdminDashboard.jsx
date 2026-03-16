@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
+import { DashboardIcons } from '../components/icons';
 import {
   getAdminStats, getAdminTrucks, getAdminBusinesses,
   getAdminDrivers, verifyTruck, verifyBusiness, getLoads,
@@ -25,17 +26,17 @@ function AdminHome() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard icon="🚛" label="Total Trucks"  value={stats.totalTrucks}  gradient="gradient-blue"   delay="delay-100" />
-        <StatCard icon="📦" label="Active Loads"   value={stats.activeLoads}   gradient="gradient-amber"  delay="delay-200" />
-        <StatCard icon="✅" label="Delivered"       value={stats.completedDeliveries} gradient="gradient-green" delay="delay-300" />
-        <StatCard icon="🛣️" label="Active Trips"   value={stats.activeTrips}   gradient="gradient-purple" delay="delay-400" />
+        <StatCard icon={DashboardIcons.truck} label="Total Trucks"  value={stats.totalTrucks}  gradient="gradient-blue"   delay="delay-100" />
+        <StatCard icon={DashboardIcons.package} label="Active Loads"   value={stats.activeLoads}   gradient="gradient-amber"  delay="delay-200" />
+        <StatCard icon={DashboardIcons.delivered} label="Delivered"       value={stats.completedDeliveries} gradient="gradient-green" delay="delay-300" />
+        <StatCard icon={DashboardIcons.route} label="Active Trips"   value={stats.activeTrips}   gradient="gradient-purple" delay="delay-400" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon="👤" label="Drivers"       value={stats.totalDrivers}     gradient="gradient-teal"  />
-        <StatCard icon="🏢" label="Businesses"    value={stats.totalBusinesses}  gradient="gradient-red"   />
-        <StatCard icon="📝" label="Posted Loads"   value={stats.postedLoads}     gradient="gradient-blue"  />
-        <StatCard icon="🤝" label="Matched Loads"  value={stats.matchedLoads}    gradient="gradient-amber" />
+        <StatCard icon={DashboardIcons.driver} label="Drivers"       value={stats.totalDrivers}     gradient="gradient-teal"  />
+        <StatCard icon={DashboardIcons.business} label="Businesses"    value={stats.totalBusinesses}  gradient="gradient-red"   />
+        <StatCard icon={DashboardIcons.posted} label="Posted Loads"   value={stats.postedLoads}     gradient="gradient-blue"  />
+        <StatCard icon={DashboardIcons.matched} label="Matched Loads"  value={stats.matchedLoads}    gradient="gradient-amber" />
       </div>
     </div>
   );
@@ -57,6 +58,7 @@ function AdminTrucks() {
     <div className="animate-fade-in-up">
       <h2 className="text-2xl font-bold text-white mb-6">All Trucks</h2>
       <div className="glass-card-static overflow-hidden">
+        <div className="data-table-wrapper">
         <table className="data-table">
           <thead>
             <tr>
@@ -99,6 +101,7 @@ function AdminTrucks() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
@@ -120,6 +123,7 @@ function AdminBusinesses() {
     <div className="animate-fade-in-up">
       <h2 className="text-2xl font-bold text-white mb-6">All Businesses</h2>
       <div className="glass-card-static overflow-hidden">
+        <div className="data-table-wrapper">
         <table className="data-table">
           <thead>
             <tr>
@@ -154,6 +158,7 @@ function AdminBusinesses() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
@@ -170,6 +175,7 @@ function AdminLoads() {
     <div className="animate-fade-in-up">
       <h2 className="text-2xl font-bold text-white mb-6">All Loads</h2>
       <div className="glass-card-static overflow-hidden">
+        <div className="data-table-wrapper">
         <table className="data-table">
           <thead>
             <tr>
@@ -198,6 +204,7 @@ function AdminLoads() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

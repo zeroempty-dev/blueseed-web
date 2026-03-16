@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Nav from '../components/Nav'
 import ScrollReveal from '../components/ScrollReveal'
+import { DashboardIcons } from '../components/icons'
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
@@ -23,7 +24,7 @@ export default function ContactPage() {
         <Nav />
         <section className="page-section">
           <div className="page-card signup-success">
-            <div className="signup-success-icon">✓</div>
+            <div className="signup-success-icon flex items-center justify-center [&_svg]:w-8 [&_svg]:h-8 text-black">{DashboardIcons.check}</div>
             <h2>Message sent!</h2>
             <p>Thanks for reaching out. We'll get back to you within 24 hours.</p>
             <Link to="/" className="cta">Back to home</Link>

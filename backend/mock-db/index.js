@@ -59,6 +59,14 @@ const trucks = [
 
 // ── Loads ─────────────────────────────────────────────────────────
 const loads = [
+  // Jan 2026 - business u1
+  { id: 'l0a', businessId: 'u1', pickupCity: 'Chennai', dropCity: 'Bangalore', cargoType: 'Electronics', weight: 4, price: 22000, pickupTime: '2026-01-15T08:00:00', status: 'delivered', matchedTruckId: 't1', assignedDriverId: 'd1', createdAt: '2026-01-10T10:00:00' },
+  { id: 'l0b', businessId: 'u1', pickupCity: 'Salem', dropCity: 'Chennai', cargoType: 'Textiles', weight: 6, price: 15000, pickupTime: '2026-01-20T09:00:00', status: 'delivered', matchedTruckId: 't2', assignedDriverId: 'd2', createdAt: '2026-01-18T11:00:00' },
+  // Feb 2026 - business u1
+  { id: 'l0c', businessId: 'u1', pickupCity: 'Bangalore', dropCity: 'Coimbatore', cargoType: 'Auto Parts', weight: 5, price: 28000, pickupTime: '2026-02-05T10:00:00', status: 'delivered', matchedTruckId: 't3', assignedDriverId: 'd1', createdAt: '2026-02-01T09:00:00' },
+  { id: 'l0d', businessId: 'u1', pickupCity: 'Erode', dropCity: 'Bangalore', cargoType: 'Chemicals', weight: 3, price: 12000, pickupTime: '2026-02-12T07:00:00', status: 'delivered', matchedTruckId: 't4', assignedDriverId: null, createdAt: '2026-02-10T14:00:00' },
+  { id: 'l0e', businessId: 'u1', pickupCity: 'Madurai', dropCity: 'Chennai', cargoType: 'Food Products', weight: 4, price: 16000, pickupTime: '2026-02-25T08:00:00', status: 'delivered', matchedTruckId: 't5', assignedDriverId: 'd2', createdAt: '2026-02-22T10:00:00' },
+  // Mar 2026 - business u1
   { id: 'l1', businessId: 'u1', pickupCity: 'Bangalore', dropCity: 'Chennai',    cargoType: 'Electronics',    weight: 5,  price: 18000, pickupTime: '2026-03-16T08:00:00', status: 'posted',    matchedTruckId: null, assignedDriverId: null, createdAt: '2026-03-14T10:00:00' },
   { id: 'l2', businessId: 'u1', pickupCity: 'Bangalore', dropCity: 'Vellore',    cargoType: 'Textiles',       weight: 3,  price: 8000,  pickupTime: '2026-03-16T10:00:00', status: 'posted',    matchedTruckId: null, assignedDriverId: null, createdAt: '2026-03-14T11:00:00' },
   { id: 'l3', businessId: 'u5', pickupCity: 'Hosur',     dropCity: 'Chennai',    cargoType: 'Auto Parts',     weight: 7,  price: 15000, pickupTime: '2026-03-16T14:00:00', status: 'posted',    matchedTruckId: null, assignedDriverId: null, createdAt: '2026-03-14T12:00:00' },

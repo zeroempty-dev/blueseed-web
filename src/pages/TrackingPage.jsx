@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import MapView from '../components/MapView';
 import StatusBadge from '../components/StatusBadge';
+import { DashboardIcons } from '../components/icons';
 import { getShipments, getTracking } from '../services/api';
 
 export default function TrackingPage() {
@@ -46,7 +47,7 @@ export default function TrackingPage() {
               }`}
             >
               <div className="flex items-center gap-2">
-                <span className="text-lg">🚛</span>
+                <span className="[&_svg]:w-5 [&_svg]:h-5 text-brand-400">{DashboardIcons.truck}</span>
                 <div>
                   <p className="text-white text-sm font-medium">{s.pickupCity} → {s.dropCity}</p>
                   <StatusBadge status={s.status} />

@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { login } from '../services/api';
+import { DashboardIcons } from '../components/icons';
 
 const roles = [
-  { role: 'business',  icon: '🏢', label: 'Business',       email: 'business@test.com',  desc: 'Post return loads for your shipments' },
-  { role: 'transport', icon: '🚛', label: 'Transport Owner', email: 'transport@test.com', desc: 'Find loads for empty return trips' },
-  { role: 'driver',    icon: '👤', label: 'Driver',          email: 'driver@test.com',    desc: 'View assigned trips & update status' },
-  { role: 'admin',     icon: '⚙️', label: 'Admin',           email: 'admin@test.com',     desc: 'Manage platform operations' },
+  { role: 'business',  icon: DashboardIcons.business, label: 'Business',       email: 'business@test.com',  desc: 'Post return loads for your shipments' },
+  { role: 'transport', icon: DashboardIcons.truck, label: 'Transport Owner', email: 'transport@test.com', desc: 'Find loads for empty return trips' },
+  { role: 'driver',    icon: DashboardIcons.driver, label: 'Driver',          email: 'driver@test.com',    desc: 'View assigned trips & update status' },
+  { role: 'admin',     icon: DashboardIcons.admin, label: 'Admin',           email: 'admin@test.com',     desc: 'Manage platform operations' },
 ];
 
 // Fallback demo users when backend is unavailable
@@ -61,7 +62,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-brand-600/10 blur-3xl"></div>
@@ -69,7 +70,7 @@ export default function LoginPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-purple-500/5 blur-3xl"></div>
       </div>
 
-      <div className="relative w-full max-w-lg animate-fade-in-up">
+      <div className="relative w-full max-w-lg animate-fade-in-up px-1">
         {/* Logo */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl gradient-blue mb-4 text-2xl font-bold text-white shadow-lg shadow-brand-600/20">
@@ -80,7 +81,7 @@ export default function LoginPage() {
         </div>
 
         {/* Role selection cards */}
-        <div className="grid grid-cols-2 gap-3 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
           {roles.map((role, i) => (
             <button
               key={role.role}
@@ -92,7 +93,7 @@ export default function LoginPage() {
               }`}
               style={{ animationDelay: `${i * 100}ms` }}
             >
-              <span className="text-2xl mb-2 block">{role.icon}</span>
+              <span className="mb-2 block [&_svg]:w-8 [&_svg]:h-8 text-brand-400">{role.icon}</span>
               <p className="text-white font-semibold text-sm">{role.label}</p>
               <p className="text-dark-200 text-xs mt-1">{role.desc}</p>
             </button>

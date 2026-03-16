@@ -53,6 +53,77 @@
   color: var(--accent);
 }
 
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-toggle .nav-toggle-bar--open:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle .nav-toggle-bar--open:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle .nav-toggle-bar--open:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(3, 3, 3, 0.98);
+  backdrop-filter: blur(12px);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 5rem 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.nav-mobile--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-mobile .nav-link {
+  font-size: 1.25rem;
+  padding: 0.75rem 1rem;
+}
+
+.nav-mobile .nav-cta {
+  font-size: 1rem;
+  padding: 0.85rem 1.5rem;
+  min-width: 200px;
+}
+
 .nav-cta:hover {
   filter: brightness(1.15);
   box-shadow: 0 0 24px var(--accent-glow);
@@ -802,6 +873,18 @@ section.compact {
     padding-top: max(1rem, env(safe-area-inset-top));
   }
 
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-mobile {
+    display: flex;
+  }
+
   .logo {
     font-size: 1.25rem;
   }
@@ -926,6 +1009,49 @@ section.compact {
     padding: 0.85rem 1.75rem;
     width: 100%;
     max-width: 280px;
+  }
+
+  .page-section {
+    padding: 5rem 1.25rem 3rem;
+  }
+
+  .page-card {
+    padding: 1.75rem 1.25rem;
+    padding-top: 2.5rem;
+  }
+
+  .signup-page {
+    padding: 5rem 1.25rem 2rem;
+  }
+
+  .signup-card {
+    padding: 2rem 1.25rem;
+    padding-top: 2.5rem;
+  }
+
+  .signup-back {
+    position: static;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .signup-title {
+    font-size: 1.5rem;
+  }
+
+  .signup-persona {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .signup-persona-desc {
+    width: 100%;
+    margin-left: 0;
+    padding-left: 2.25rem;
+  }
+
+  .contact-info {
+    gap: 1rem;
   }
 }
 

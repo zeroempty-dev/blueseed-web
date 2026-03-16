@@ -78,4 +78,8 @@ export const verifyBusiness = (id) =>
 export const getDrivers = () =>
   api.get('/drivers').then(r => r.data);
 
+// Business analytics
+export const getBusinessAnalytics = (businessId) =>
+  api.get(`/business/${businessId}/analytics`).then(r => r.data);
+
 export default api;

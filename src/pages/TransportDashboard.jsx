@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import DashboardLayout from '../components/DashboardLayout';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
+import { DashboardIcons } from '../components/icons';
 import {
   getTrucks, createTruck, getMatchedLoads, getShipments,
   createShipment, assignDriver, getDrivers,
@@ -35,16 +36,16 @@ function MyTrucks() {
 
   return (
     <div className="animate-fade-in-up">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h2 className="text-2xl font-bold text-white">My Trucks</h2>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
+        <button onClick={() => setShowForm(!showForm)} className="btn-primary w-full sm:w-auto">
           {showForm ? '✕ Cancel' : '+ Register Truck'}
         </button>
       </div>
 
       {showForm && (
         <form onSubmit={handleSubmit} className="glass-card-static p-6 space-y-4 mb-6 animate-fade-in-up">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="form-label">Truck Number</label>
               <input className="form-input" placeholder="e.g. TN-01-AB-1234" required value={formData.truckNumber} onChange={e => setFormData(f => ({ ...f, truckNumber: e.target.value }))} />
@@ -57,7 +58,7 @@ function MyTrucks() {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="form-label">Capacity (tons)</label>
               <input type="number" className="form-input" placeholder="e.g. 10" required value={formData.capacity} onChange={e => setFormData(f => ({ ...f, capacity: e.target.value }))} />
@@ -77,7 +78,10 @@ function MyTrucks() {
               </select>
             </div>
           </div>
-          <button type="submit" className="btn-success">🚛 Register Truck</button>
+          <button type="submit" className="btn-success flex items-center gap-2 justify-center">
+            <span className="[&_svg]:w-4 [&_svg]:h-4">{DashboardIcons.truck}</span>
+            Register Truck
+          </button>
         </form>
       )}
 
@@ -86,7 +90,7 @@ function MyTrucks() {
           <div key={truck.id} className="glass-card p-5">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center text-lg">🚛</div>
+                <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
                 <div>
                   <p className="text-white font-semibold">{truck.truckNumber}</p>
                   <p className="text-dark-200 text-xs">{truck.truckType} • {truck.capacity}T</p>
@@ -184,7 +188,7 @@ function FindLoads() {
 
       {matchResult && !loading && (
         <div className="glass-card-static overflow-hidden">
-          <div className="p-4 border-b border-white/5 flex items-center justify-between">
+          <div className="p-4 border-b border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <h3 className="text-white font-semibold">
               Matched Loads for {matchResult.truck.truckNumber}
             </h3>
@@ -195,10 +199,11 @@ function FindLoads() {
 
           {matchResult.matches.length === 0 ? (
             <div className="text-center py-12 text-dark-300">
-              <p className="text-3xl mb-2">🔍</p>
+              <div className="mb-2 text-dark-400 [&_svg]:w-12 [&_svg]:h-12">{DashboardIcons.search}</div>
               <p>No matching loads found for this route</p>
             </div>
           ) : (
+            <div className="data-table-wrapper">
             <table className="data-table">
               <thead>
                 <tr>
@@ -240,6 +245,7 @@ function FindLoads() {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       )}
@@ -265,6 +271,7 @@ function Shipments() {
     <div className="animate-fade-in-up">
       <h2 className="text-2xl font-bold text-white mb-6">Shipments</h2>
       <div className="glass-card-static overflow-hidden">
+        <div className="data-table-wrapper">
         <table className="data-table">
           <thead>
             <tr>
@@ -315,6 +322,7 @@ function Shipments() {
             ))}
           </tbody>
         </table>
+        </div>
         {shipments.length === 0 && (
           <div className="text-center py-12 text-dark-300">No shipments yet</div>
         )}
@@ -341,10 +349,10 @@ function TransportHome() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard icon="🚛" label="Total Trucks" value={trucks.length} gradient="gradient-blue" delay="delay-100" />
-        <StatCard icon="✅" label="Available" value={trucks.filter(t => t.status === 'available').length} gradient="gradient-green" delay="delay-200" />
-        <StatCard icon="📦" label="Active Shipments" value={shipments.filter(s => s.status !== 'delivered').length} gradient="gradient-amber" delay="delay-300" />
-        <StatCard icon="🏁" label="Completed" value={shipments.filter(s => s.status === 'delivered').length} gradient="gradient-purple" delay="delay-400" />
+        <StatCard icon={DashboardIcons.truck} label="Total Trucks" value={trucks.length} gradient="gradient-blue" delay="delay-100" />
+        <StatCard icon={DashboardIcons.delivered} label="Available" value={trucks.filter(t => t.status === 'available').length} gradient="gradient-green" delay="delay-200" />
+        <StatCard icon={DashboardIcons.shipment} label="Active Shipments" value={shipments.filter(s => s.status !== 'delivered').length} gradient="gradient-amber" delay="delay-300" />
+        <StatCard icon={DashboardIcons.completed} label="Completed" value={shipments.filter(s => s.status === 'delivered').length} gradient="gradient-purple" delay="delay-400" />
       </div>
 
       {/* Quick truck overview */}
@@ -352,7 +360,7 @@ function TransportHome() {
         {trucks.map((truck, i) => (
           <div key={truck.id} className="glass-card p-5 animate-fade-in-up" style={{ animationDelay: `${(i + 2) * 100}ms` }}>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center">🚛</div>
+              <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center text-white [&_svg]:w-5 [&_svg]:h-5">{DashboardIcons.truck}</div>
               <div>
                 <p className="text-white font-semibold">{truck.truckNumber}</p>
                 <p className="text-dark-200 text-xs">{truck.truckType} • {truck.capacity}T</p>

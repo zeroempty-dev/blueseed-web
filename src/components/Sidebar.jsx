@@ -1,34 +1,36 @@
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { DashboardIcons } from './icons';
 
 const BASE = '/demo';
+
 const navItems = {
   business: [
-    { path: `${BASE}/business`,        label: 'Dashboard',    icon: '📊' },
-    { path: `${BASE}/business/post`,   label: 'Post Load',    icon: '📦' },
-    { path: `${BASE}/business/loads`,  label: 'My Loads',     icon: '📋' },
-    { path: `${BASE}/tracking`,        label: 'Tracking',     icon: '🗺️' },
+    { path: `${BASE}/business`,        label: 'Dashboard',    icon: DashboardIcons.dashboard },
+    { path: `${BASE}/business/post`,   label: 'Post Load',    icon: DashboardIcons.package },
+    { path: `${BASE}/business/loads`,  label: 'My Loads',     icon: DashboardIcons.loads },
+    { path: `${BASE}/tracking`,        label: 'Tracking',     icon: DashboardIcons.map },
   ],
   transport: [
-    { path: `${BASE}/transport`,          label: 'Dashboard',      icon: '📊' },
-    { path: `${BASE}/transport/trucks`,   label: 'My Trucks',      icon: '🚛' },
-    { path: `${BASE}/transport/loads`,    label: 'Find Loads',     icon: '🔍' },
-    { path: `${BASE}/transport/shipments`,label: 'Shipments',      icon: '📦' },
-    { path: `${BASE}/tracking`,           label: 'Tracking',       icon: '🗺️' },
+    { path: `${BASE}/transport`,          label: 'Dashboard',      icon: DashboardIcons.dashboard },
+    { path: `${BASE}/transport/trucks`,   label: 'My Trucks',      icon: DashboardIcons.truck },
+    { path: `${BASE}/transport/loads`,    label: 'Find Loads',     icon: DashboardIcons.search },
+    { path: `${BASE}/transport/shipments`,label: 'Shipments',      icon: DashboardIcons.shipment },
+    { path: `${BASE}/tracking`,           label: 'Tracking',       icon: DashboardIcons.map },
   ],
   driver: [
-    { path: `${BASE}/driver`,    label: 'My Trip',   icon: '🛣️' },
-    { path: `${BASE}/tracking`,  label: 'Map',       icon: '🗺️' },
+    { path: `${BASE}/driver`,    label: 'My Trip',   icon: DashboardIcons.route },
+    { path: `${BASE}/tracking`,  label: 'Map',       icon: DashboardIcons.map },
   ],
   admin: [
-    { path: `${BASE}/admin`,            label: 'Dashboard',    icon: '📊' },
-    { path: `${BASE}/admin/trucks`,     label: 'Trucks',       icon: '🚛' },
-    { path: `${BASE}/admin/businesses`, label: 'Businesses',   icon: '🏢' },
-    { path: `${BASE}/admin/loads`,      label: 'All Loads',    icon: '📦' },
+    { path: `${BASE}/admin`,            label: 'Dashboard',    icon: DashboardIcons.dashboard },
+    { path: `${BASE}/admin/trucks`,     label: 'Trucks',       icon: DashboardIcons.truck },
+    { path: `${BASE}/admin/businesses`, label: 'Businesses',   icon: DashboardIcons.business },
+    { path: `${BASE}/admin/loads`,      label: 'All Loads',    icon: DashboardIcons.package },
   ],
 };
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const items = navItems[user?.role] || [];
@@ -36,13 +38,28 @@ export default function Sidebar() {
   const handleLogout = () => {
     logout();
     navigate('/demo/login');
+    onClose?.();
+  };
+
+  const handleNavClick = () => {
+    onClose?.();
   };
 
   return (
-    <aside className="sidebar fixed top-0 left-0 h-screen w-64 bg-dark-800 border-r border-white/5 flex flex-col z-50">
+    <aside className={`sidebar fixed top-0 left-0 h-screen w-64 bg-dark-800 border-r border-white/5 flex flex-col z-50 transition-transform duration-300 ${isOpen ? 'sidebar--open' : ''}`}>
+      {/* Close button (mobile) */}
+      <button
+        type="button"
+        className="sidebar-close"
+        aria-label="Close menu"
+        onClick={onClose}
+      >
+        <span />
+        <span />
+      </button>
       {/* Logo */}
       <div className="p-6 border-b border-white/5">
-        <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
+        <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity" onClick={handleNavClick}>
           <div className="w-10 h-10 rounded-xl gradient-blue flex items-center justify-center text-white font-bold text-lg">
             Z
           </div>
@@ -60,6 +77,7 @@ export default function Sidebar() {
             key={item.path}
             to={item.path}
             end={item.path === `${BASE}/${user?.role}` || item.path === `${BASE}/tracking`}
+            onClick={handleNavClick}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                 isActive
@@ -68,7 +86,7 @@ export default function Sidebar() {
               }`
             }
           >
-            <span className="text-lg">{item.icon}</span>
+            <span className="[&_svg]:shrink-0 [&_svg]:text-current">{item.icon}</span>
             {item.label}
           </NavLink>
         ))}

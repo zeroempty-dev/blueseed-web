@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { DashboardIcons } from '../components/icons'
 
 const PERSONAS = [
-  { id: 'business', label: 'Business Associate', desc: 'Post loads and choose shipment', icon: '🏢' },
-  { id: 'transport', label: 'Transport Owner', desc: 'Find loads for your fleet', icon: '🚛' },
+  { id: 'business', label: 'Business Associate', desc: 'Post loads and choose shipment', icon: DashboardIcons.business },
+  { id: 'transport', label: 'Transport Owner', desc: 'Find loads for your fleet', icon: DashboardIcons.truck },
 ]
 
 export default function SignupPage() {
@@ -23,7 +24,7 @@ export default function SignupPage() {
     return (
       <section className="signup-page">
         <div className="signup-card signup-success">
-          <div className="signup-success-icon">✓</div>
+          <div className="signup-success-icon flex items-center justify-center [&_svg]:w-8 [&_svg]:h-8 text-black">{DashboardIcons.check}</div>
           <h2>Thank you!</h2>
           <p>We've received your details. Our team will get in touch soon.</p>
           <Link to="/" className="cta">Back to home</Link>
@@ -89,7 +90,7 @@ export default function SignupPage() {
                   className={`signup-persona ${persona === p.id ? 'active' : ''}`}
                   onClick={() => setPersona(p.id)}
                 >
-                  <span className="signup-persona-icon">{p.icon}</span>
+                  <span className="signup-persona-icon [&_svg]:w-6 [&_svg]:h-6 text-brand-400">{p.icon}</span>
                   <span className="signup-persona-label">{p.label}</span>
                   <span className="signup-persona-desc">{p.desc}</span>
                 </button>
