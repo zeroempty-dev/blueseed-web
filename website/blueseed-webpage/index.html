@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blue Seed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:    #FFFFFF;
+      --khaki-lt: #F4EEE4;
+      --khaki-md: #E8DCC8;
+      --khaki:    #C9B99A;
+      --khaki-dk: #A89070;
+      --ink:      #1C1C1C;
+      --ink-mid:  #4A4540;
+      --ink-soft: #857E78;
+      --sans:     'Syne', sans-serif;
+      --body:     'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--body);
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 64px;
+      height: 68px;
+      background: rgba(255,255,255,0.0);
+      transition: background 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(255,255,255,0.96);
+      border-bottom-color: var(--khaki-md);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--khaki-dk); }
+    .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: var(--body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links .nav-cta {
+      padding: 8px 20px;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      transition: background 0.2s;
+    }
+    .nav-links .nav-cta:hover { background: var(--khaki-dk); color: var(--white); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 64px 80px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-tag {
+      font-family: var(--body);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--khaki-dk);
+    }
+    .hero-title {
+      font-family: var(--sans);
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-title .accent { color: var(--khaki-dk); }
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      max-width: 400px;
+      opacity: 0; animation: fadeUp 0.8s 0.7s forwards;
+    }
+    .hero-actions {
+      margin-top: 44px;
+      display: flex; gap: 16px; align-items: center;
+      opacity: 0; animation: fadeUp 0.8s 0.9s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: all 0.22s;
+      cursor: pointer; border: none;
+    }
+    .btn-dark {
+      padding: 13px 28px;
+      background: var(--ink);
+      color: var(--white);
+    }
+    .btn-dark:hover { background: var(--khaki-dk); }
+    .btn-outline {
+      padding: 12px 28px;
+      border: 1px solid var(--khaki);
+      color: var(--ink-mid);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
+    /* Hero right — geometric visual */
+    .hero-right {
+      position: relative;
+      background: var(--khaki-lt);
+      overflow: hidden;
+    }
+    .hero-right canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+    .hero-right-label {
+      position: absolute; bottom: 40px; right: 40px;
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      writing-mode: vertical-rl;
+      opacity: 0; animation: fadeIn 1s 1.4s forwards;
+    }
+
+    /* ── TICKER STRIP ── */
+    .ticker {
+      background: var(--ink);
+      height: 44px;
+      overflow: hidden;
+      display: flex; align-items: center;
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      animation: ticker 22s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--khaki);
+      padding: 0 48px;
+      display: flex; align-items: center; gap: 48px;
+    }
+    .ticker-item::after {
+      content: '·';
+      color: var(--khaki-dk);
+    }
+
+    /* ── SECTION BASE ── */
+    .s-pad { padding: 100px 64px; }
+    .s-label {
+      font-family: var(--body);
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-bottom: 16px;
+    }
+    .s-title {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .s-title .muted { color: var(--khaki); }
+
+    /* ── COMPANIES ── */
+    #companies { background: var(--white); }
+    .companies-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 56px;
+    }
+    .companies-header-right {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      max-width: 280px;
+      line-height: 1.65;
+      text-align: right;
+    }
+
+    .company-row {
+      display: grid;
+      grid-template-columns: 64px 1fr 2fr 180px;
+      align-items: center;
+      gap: 0;
+      padding: 36px 0;
+      border-top: 1px solid var(--khaki-md);
+      transition: background 0.2s;
+      cursor: default;
+      position: relative;
+    }
+    .company-row:last-child { border-bottom: 1px solid var(--khaki-md); }
+    .company-row::after {
+      content: '';
+      position: absolute; left: 0; right: 0; bottom: 0;
+      height: 0;
+      background: var(--khaki-lt);
+      z-index: -1;
+      transition: height 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .company-row:hover::after { height: 100%; top: 0; bottom: auto; }
+
+    .co-num {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--khaki);
+      letter-spacing: 0.1em;
+    }
+    .co-badge {
+      width: 44px; height: 44px;
+      background: var(--ink);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--khaki-md);
+      letter-spacing: 0.04em;
+    }
+    .co-info { padding: 0 40px 0 24px; }
+    .co-name {
+      font-family: var(--sans);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .co-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+    }
+    .co-desc {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+    .co-link {
+      display: flex; justify-content: flex-end;
+      font-family: var(--body);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      text-decoration: none;
+      align-items: center; gap: 8px;
+      transition: gap 0.2s, color 0.2s;
+    }
+    .co-link:hover { gap: 14px; color: var(--khaki-dk); }
+    .co-link svg { flex-shrink: 0; }
+
+    /* ── MISSION ── */
+    #mission { background: var(--khaki-lt); }
+    .mission-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 60px;
+      align-items: start;
+    }
+    .mission-statement {
+      font-family: var(--sans);
+      font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+      font-weight: 500;
+      line-height: 1.5;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+    }
+    .mission-statement .highlight {
+      background: var(--khaki-md);
+      padding: 0 4px;
+    }
+    .pillars { display: flex; flex-direction: column; gap: 0; }
+    .pillar {
+      padding: 28px 0;
+      border-top: 1px solid var(--khaki);
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .pillar:last-child { border-bottom: 1px solid var(--khaki); }
+    .pillar-n {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--khaki-dk);
+      padding-top: 3px;
+    }
+    .pillar-body h4 {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .pillar-body p {
+      font-size: 0.84rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    /* ── NUMBERS ── */
+    #numbers {
+      background: var(--ink);
+      padding: 80px 64px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .num-block {
+      background: var(--ink);
+      padding: 48px 44px;
+      border-right: 1px solid rgba(201,185,154,0.15);
+    }
+    .num-block:last-child { border-right: none; }
+    .num-val {
+      font-family: var(--sans);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--khaki-md);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .num-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--white); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 60px;
+      align-items: start;
+    }
+    .contact-body {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      margin-top: 20px;
+      margin-bottom: 36px;
+    }
+    .contact-tiles { display: flex; flex-direction: column; gap: 2px; }
+    .contact-tile {
+      background: var(--khaki-lt);
+      padding: 24px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.2s;
+    }
+    .contact-tile:hover { background: var(--khaki-md); }
+    .ct-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-bottom: 6px;
+    }
+    .ct-val {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .ct-arrow {
+      color: var(--khaki-dk);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      padding: 44px 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .f-logo {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--khaki-md);
+    }
+    .f-logo span { color: var(--khaki-dk); }
+    .f-copy { font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.04em; }
+    .f-links { display: flex; gap: 28px; }
+    .f-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .f-links a:hover { color: var(--khaki); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .rd1 { transition-delay: 0.1s; }
+    .rd2 { transition-delay: 0.2s; }
+    .rd3 { transition-delay: 0.3s; }
+
+    @media (max-width: 960px) {
+      nav { padding: 0 28px; }
+      .s-pad { padding: 72px 28px; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 100px 28px 60px; }
+      .hero-right { display: none; }
+      .companies-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .companies-header-right { text-align: left; }
+      .company-row { grid-template-columns: 1fr; gap: 16px; }
+      .co-num { display: none; }
+      .mission-layout, .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+      #numbers { grid-template-columns: 1fr; }
+      .num-block { border-right: none; border-bottom: 1px solid rgba(201,185,154,0.15); }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+      .nav-links .nav-cta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Blue<span>Seed</span></a>
+    <ul class="nav-links">
+      <li><a href="#companies">Companies</a></li>
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="#contact" class="nav-cta">Investors</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-tag">Holding Company</p>
+      <h1 class="hero-title">
+        Building<br/>
+        companies<br/>
+        that <span class="accent">move</span><br/>
+        the world.
+      </h1>
+      <p class="hero-sub">Blue Seed is a holding company backing transformative businesses in logistics, infrastructure, and beyond — from the earliest seed to scale.</p>
+      <div class="hero-actions">
+        <a href="#companies" class="btn btn-dark">Our Companies</a>
+        <a href="team.html" class="btn btn-outline">Meet the Team</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <canvas id="heroCanvas"></canvas>
+      <span class="hero-right-label">Blue Seed Holdings · 2024</span>
+    </div>
+  </section>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-item">Logistics</span>
+      <span class="ticker-item">Infrastructure</span>
+      <span class="ticker-item">Sustainability</span>
+      <span class="ticker-item">Supply Chain</span>
+      <span class="ticker-item">Freight Technology</span>
+      <span class="ticker-item">Patient Capital</span>
+      <span class="ticker-item">Logistics</span>
+      <span class="ticker-item">Infrastructure</span>
+      <span class="ticker-item">Sustainability</span>
+      <span class="ticker-item">Supply Chain</span>
+      <span class="ticker-item">Freight Technology</span>
+      <span class="ticker-item">Patient Capital</span>
+    </div>
+  </div>
+
+  <!-- Companies -->
+  <section id="companies" class="s-pad">
+    <div class="companies-header reveal">
+      <div>
+        <p class="s-label">Portfolio</p>
+        <h2 class="s-title">Our <span class="muted">Companies</span></h2>
+      </div>
+      <p class="companies-header-right">We build and back businesses that tackle infrastructure-grade problems across industries.</p>
+    </div>
+
+    <div class="company-row reveal rd1">
+      <span class="co-num">01</span>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="co-badge">ZE</div>
+        <div class="co-info" style="padding:0;">
+          <div class="co-name">ZeroEmpty</div>
+          <div class="co-tag">Logistics &amp; Freight</div>
+        </div>
+      </div>
+      <p class="co-desc">Intelligent freight matching and routing for cargo owners and carriers — real-time visibility, smarter capacity utilization, and zero empty runs.</p>
+      <a href="#" class="co-link">
+        Visit company
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 7h12M7 1l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section id="mission" class="s-pad">
+    <p class="s-label reveal">Philosophy</p>
+    <h2 class="s-title reveal rd1">Why we <span class="muted">exist</span></h2>
+    <div class="mission-layout">
+      <div class="mission-statement reveal rd1">
+        We back founders who are building the <span class="highlight">invisible backbone</span> of industry — companies that won't trend on social media but will quietly reshape how the world operates.
+      </div>
+      <div class="pillars">
+        <div class="pillar reveal rd1">
+          <span class="pillar-n">01</span>
+          <div class="pillar-body">
+            <h4>Patient Capital</h4>
+            <p>We think in decades. We give founders the runway to build with conviction, not under the pressure of quarterly returns.</p>
+          </div>
+        </div>
+        <div class="pillar reveal rd2">
+          <span class="pillar-n">02</span>
+          <div class="pillar-body">
+            <h4>Infrastructure Focus</h4>
+            <p>The best businesses become platforms others depend on. We back companies solving problems at infrastructure scale.</p>
+          </div>
+        </div>
+        <div class="pillar reveal rd3">
+          <span class="pillar-n">03</span>
+          <div class="pillar-body">
+            <h4>Sustainable by Default</h4>
+            <p>Commercial success and environmental responsibility are not trade-offs. Every company we build is held to both standards.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Numbers -->
+  <div id="numbers">
+    <div class="num-block reveal">
+      <div class="num-val">01</div>
+      <div class="num-label">Portfolio Companies</div>
+    </div>
+    <div class="num-block reveal rd1">
+      <div class="num-val">2024</div>
+      <div class="num-label">Year Founded</div>
+    </div>
+    <div class="num-block reveal rd2">
+      <div class="num-val">∞</div>
+      <div class="num-label">Potential in Every Seed</div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <section id="contact" class="s-pad">
+    <div class="contact-layout">
+      <div>
+        <p class="s-label reveal">Contact</p>
+        <h2 class="s-title reveal rd1">Let's build<br/><span class="muted">together.</span></h2>
+        <p class="contact-body reveal rd2">Founders, investors, and potential partners — we're always open to conversations about long-term, infrastructure-grade opportunities.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;" class="reveal rd2">
+          <a href="mailto:hello@blueseed.co" class="btn btn-dark">Get in Touch</a>
+          <a href="mailto:ventures@blueseed.co" class="btn btn-outline">Investor Relations</a>
+        </div>
+      </div>
+      <div class="contact-tiles reveal rd1">
+        <div class="contact-tile">
+          <div>
+            <div class="ct-label">General</div>
+            <div class="ct-val">hello@blueseed.co</div>
+          </div>
+          <svg class="ct-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h14M8 1l7 7-7 7"/></svg>
+        </div>
+        <div class="contact-tile">
+          <div>
+            <div class="ct-label">Ventures &amp; Investors</div>
+            <div class="ct-val">ventures@blueseed.co</div>
+          </div>
+          <svg class="ct-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h14M8 1l7 7-7 7"/></svg>
+        </div>
+        <div class="contact-tile">
+          <div>
+            <div class="ct-label">Registered Office</div>
+            <div class="ct-val">India</div>
+          </div>
+          <svg class="ct-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h14M8 1l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="f-logo">Blue<span>Seed</span></div>
+    <div class="f-copy">© 2024 Blue Seed Holdings. All rights reserved.</div>
+    <div class="f-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="team.html">Team</a>
+    </div>
+  </footer>
+
+  <script>
+    /* Nav scroll */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+
+    /* Reveal */
+    const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    /* Hero canvas — structured grid / geometric */
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    const colors = ['#E8DCC8','#C9B99A','#A89070','#D4C5A9','#F4EEE4'];
+
+    class Block {
+      constructor() { this.init(true); }
+      init(rand) {
+        const W = canvas.width, H = canvas.height;
+        this.x  = rand ? Math.random() * W : (Math.random() > 0.5 ? -60 : W + 60);
+        this.y  = rand ? Math.random() * H : Math.random() * H;
+        this.w  = 30 + Math.random() * 100;
+        this.h  = 30 + Math.random() * 100;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.2;
+        this.alpha = 0.08 + Math.random() * 0.18;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.rot = Math.random() * Math.PI * 0.5;
+        this.rv  = (Math.random() - 0.5) * 0.003;
+        this.circle = Math.random() > 0.6;
+      }
+      draw() {
+        const W = canvas.width, H = canvas.height;
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rot);
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        if (this.circle) {
+          ctx.beginPath(); ctx.arc(0, 0, this.w / 2, 0, Math.PI * 2); ctx.fill();
+        } else {
+          ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+        }
+        ctx.restore();
+      }
+      update() {
+        const W = canvas.width, H = canvas.height;
+        this.x += this.vx; this.y += this.vy; this.rot += this.rv;
+        if (this.x < -120 || this.x > W + 120 || this.y < -120 || this.y > H + 120) this.init(false);
+      }
+    }
+
+    const blocks = Array.from({length: 18}, () => new Block());
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      blocks.forEach(b => { b.update(); b.draw(); });
+      requestAnimationFrame(loop);
+    }
+    loop();
+  </script>
+</body>
+</html>

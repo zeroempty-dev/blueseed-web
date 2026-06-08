@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Team — Blue Seed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:    #FFFFFF;
+      --khaki-lt: #F4EEE4;
+      --khaki-md: #E8DCC8;
+      --khaki:    #C9B99A;
+      --khaki-dk: #A89070;
+      --ink:      #1C1C1C;
+      --ink-mid:  #4A4540;
+      --ink-soft: #857E78;
+      --sans:     'Syne', sans-serif;
+      --body:     'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--body);
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 64px;
+      height: 68px;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--khaki-md);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--khaki-dk); }
+    .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+    .nav-links .nav-cta {
+      padding: 8px 20px;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      transition: background 0.2s;
+    }
+    .nav-links .nav-cta:hover { background: var(--khaki-dk); color: var(--white); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 140px 64px 80px;
+      background: var(--khaki-lt);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      border-bottom: 1px solid var(--khaki-md);
+    }
+    .ph-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-bottom: 16px;
+    }
+    .ph-title {
+      font-family: var(--sans);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      color: var(--ink);
+    }
+    .ph-title .accent { color: var(--khaki-dk); }
+    .ph-sub {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      max-width: 360px;
+      align-self: end;
+    }
+
+    /* ── LEADERSHIP ── */
+    .team-section {
+      padding: 80px 64px;
+      border-bottom: 1px solid var(--khaki-md);
+    }
+    .ts-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-bottom: 48px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .ts-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--khaki-md);
+    }
+
+    /* ── LEADER ROW (for founders) ── */
+    .leader-row {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      border-top: 1px solid var(--khaki-md);
+      transition: background 0.2s;
+    }
+    .leader-row:last-child { border-bottom: 1px solid var(--khaki-md); }
+    .leader-row:hover { background: var(--khaki-lt); }
+
+    .lr-left {
+      padding: 40px 40px 40px 0;
+      border-right: 1px solid var(--khaki-md);
+      display: flex; flex-direction: column;
+      gap: 16px;
+    }
+    .lr-avatar {
+      width: 80px; height: 80px;
+      border-radius: 4px;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--sans);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--khaki-md);
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+    .lr-name {
+      font-family: var(--sans);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .lr-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+    }
+
+    .lr-right {
+      padding: 40px 0 40px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 60px;
+      align-content: start;
+    }
+    .lr-bio {
+      grid-column: 1 / -1;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      max-width: 560px;
+    }
+    .lr-stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-bottom: 5px;
+    }
+    .lr-stat-val {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* ── ADVISOR GRID ── */
+    .advisor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .advisor-card {
+      background: var(--khaki-lt);
+      padding: 36px 32px;
+      transition: background 0.2s;
+    }
+    .advisor-card:hover { background: var(--khaki-md); }
+    .ac-avatar {
+      width: 52px; height: 52px;
+      border-radius: 4px;
+      background: var(--khaki-md);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink-mid);
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+    .advisor-card:hover .ac-avatar { background: var(--khaki); }
+    .ac-name {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .ac-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-bottom: 16px;
+    }
+    .ac-bio {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    /* ── JOIN SECTION ── */
+    .join-section {
+      background: var(--ink);
+      padding: 80px 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .join-title {
+      font-family: var(--sans);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: var(--white);
+    }
+    .join-title .accent { color: var(--khaki); }
+    .join-body {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.45);
+      margin-top: 16px;
+    }
+    .join-right {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .join-tile {
+      background: rgba(255,255,255,0.05);
+      padding: 20px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .join-tile:hover { background: rgba(201,185,154,0.12); }
+    .jt-role {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--khaki-md);
+    }
+    .jt-type {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--khaki-dk);
+      margin-top: 3px;
+    }
+    .jt-arrow { color: var(--khaki-dk); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(201,185,154,0.15);
+      padding: 44px 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .f-logo {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--khaki-md);
+    }
+    .f-logo span { color: var(--khaki-dk); }
+    .f-copy { font-size: 0.72rem; color: var(--ink-soft); }
+    .f-links { display: flex; gap: 28px; }
+    .f-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .f-links a:hover { color: var(--khaki); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .rd1 { transition-delay: 0.1s; }
+    .rd2 { transition-delay: 0.2s; }
+    .rd3 { transition-delay: 0.3s; }
+
+    /* animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ph-label { animation: fadeUp 0.7s 0.2s both; }
+    .ph-title  { animation: fadeUp 0.8s 0.35s both; }
+    .ph-sub    { animation: fadeUp 0.7s 0.5s both; }
+
+    @media (max-width: 960px) {
+      nav { padding: 0 28px; }
+      .page-header { padding: 120px 28px 60px; grid-template-columns: 1fr; gap: 24px; }
+      .team-section { padding: 60px 28px; }
+      .leader-row { grid-template-columns: 1fr; }
+      .lr-left { border-right: none; border-bottom: 1px solid var(--khaki-md); padding: 32px 0; }
+      .lr-right { padding: 32px 0; }
+      .advisor-grid { grid-template-columns: 1fr; }
+      .join-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 28px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="nav-logo">Blue<span>Seed</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#companies">Companies</a></li>
+      <li><a href="index.html#mission">Mission</a></li>
+      <li><a href="team.html" class="active">Team</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Investors</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <p class="ph-label">Our People</p>
+      <h1 class="ph-title">The people<br/>behind <span class="accent">Blue Seed.</span></h1>
+    </div>
+    <p class="ph-sub">A small, focused group of operators, builders, and thinkers committed to growing transformative companies from the ground up.</p>
+  </div>
+
+  <!-- Leadership -->
+  <div class="team-section">
+    <p class="ts-label">Founders &amp; Leadership</p>
+
+    <div class="leader-row reveal">
+      <div class="lr-left">
+        <div class="lr-avatar">AS</div>
+        <div>
+          <div class="lr-name">Amruth S.</div>
+          <div class="lr-title">Founder &amp; CEO</div>
+        </div>
+      </div>
+      <div class="lr-right">
+        <p class="lr-bio">Amruth founded Blue Seed with the conviction that the physical world — how goods move, how supply chains work — is ripe for intelligent reinvention. He leads strategy, portfolio direction, and long-term vision across all Blue Seed companies.</p>
+        <div>
+          <div class="lr-stat-label">Focus Area</div>
+          <div class="lr-stat-val">Logistics, Strategy</div>
+        </div>
+        <div>
+          <div class="lr-stat-label">Based in</div>
+          <div class="lr-stat-val">India</div>
+        </div>
+        <div>
+          <div class="lr-stat-label">Portfolio Role</div>
+          <div class="lr-stat-val">ZeroEmpty — Founder</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="leader-row reveal rd1">
+      <div class="lr-left">
+        <div class="lr-avatar">—</div>
+        <div>
+          <div class="lr-name">Co-Founder</div>
+          <div class="lr-title">Chief Operating Officer</div>
+        </div>
+      </div>
+      <div class="lr-right">
+        <p class="lr-bio">Oversees day-to-day operations across the portfolio, building the systems and teams that allow Blue Seed companies to execute at scale. Deep expertise in operational design and high-performance team building.</p>
+        <div>
+          <div class="lr-stat-label">Focus Area</div>
+          <div class="lr-stat-val">Operations, Scaling</div>
+        </div>
+        <div>
+          <div class="lr-stat-label">Based in</div>
+          <div class="lr-stat-val">India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Advisors -->
+  <div class="team-section">
+    <p class="ts-label">Advisors &amp; Board</p>
+    <div class="advisor-grid">
+      <div class="advisor-card reveal">
+        <div class="ac-avatar">—</div>
+        <div class="ac-name">Industry Advisor</div>
+        <div class="ac-title">Logistics &amp; Supply Chain</div>
+        <p class="ac-bio">Decades of experience scaling freight and logistics operations across South Asia. Provides portfolio companies with unmatched industry access and mentorship.</p>
+      </div>
+      <div class="advisor-card reveal rd1">
+        <div class="ac-avatar">—</div>
+        <div class="ac-name">Technology Advisor</div>
+        <div class="ac-title">Product &amp; Engineering</div>
+        <p class="ac-bio">Former engineering leader at a top-tier technology company. Advises on product architecture, engineering culture, and building for infrastructure-grade reliability.</p>
+      </div>
+      <div class="advisor-card reveal rd2">
+        <div class="ac-avatar">—</div>
+        <div class="ac-name">Investor Advisor</div>
+        <div class="ac-title">Capital &amp; Governance</div>
+        <p class="ac-bio">Brings institutional capital experience and governance best practices to the board. Focused on long-term value creation and responsible growth for portfolio companies.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Join -->
+  <div class="join-section">
+    <div>
+      <h2 class="join-title">Want to help us<br/>build the <span class="accent">next one?</span></h2>
+      <p class="join-body">We're always looking for operators, builders, and thinkers who want to work on hard problems at the intersection of technology and physical infrastructure.</p>
+    </div>
+    <div class="join-right">
+      <a href="mailto:hello@blueseed.co" class="join-tile">
+        <div>
+          <div class="jt-role">General Inquiry</div>
+          <div class="jt-type">Open Application</div>
+        </div>
+        <svg class="jt-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h14M8 1l7 7-7 7"/></svg>
+      </a>
+      <a href="mailto:ventures@blueseed.co" class="join-tile">
+        <div>
+          <div class="jt-role">Partner / Advisor</div>
+          <div class="jt-type">Strategic Role</div>
+        </div>
+        <svg class="jt-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h14M8 1l7 7-7 7"/></svg>
+      </a>
+      <a href="mailto:ventures@blueseed.co" class="join-tile">
+        <div>
+          <div class="jt-role">Investor Relations</div>
+          <div class="jt-type">Capital &amp; Partnerships</div>
+        </div>
+        <svg class="jt-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h14M8 1l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="f-logo">Blue<span>Seed</span></div>
+    <div class="f-copy">© 2024 Blue Seed Holdings. All rights reserved.</div>
+    <div class="f-links">
+      <a href="index.html">Home</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
