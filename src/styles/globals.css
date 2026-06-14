@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,600&family=Figtree:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Muted navy — reads as "serious" not "airline" */
+  --navy:        #1E2240;
+  --navy-mid:    #2C3156;
+  --navy-soft:   #8B91B5;
+  --navy-lt:     #EEEEF6;
+
+  /* Cream palette — dominant */
+  --cream:       #F8F4EE;
+  --cream-dk:    #EDE8E0;
+  --linen:       #FDFCFA;
+
+  /* Gold — warm accent */
+  --gold:        #C8962A;
+  --gold-lt:     #E8B84A;
+
+  /* Blue — brand accent */
+  --blue:        #3B5BDB;
+  --blue-lt:     #6E8BFF;
+
+  /* Text */
+  --ink:         #1A1C2E;
+  --ink-mid:     #4A4D68;
+  --ink-soft:    #8B8FA8;
+
+  --sans:  'Fraunces', Georgia, serif;
+  --body:  'Figtree', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--linen);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+::selection { background: var(--gold-lt); color: var(--navy); }
+
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.rd1 { transition-delay: 0.12s; }
+.rd2 { transition-delay: 0.24s; }
+.rd3 { transition-delay: 0.36s; }
