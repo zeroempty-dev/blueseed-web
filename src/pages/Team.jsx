@@ -143,8 +143,8 @@ export default function Team() {
         <div className="f-copy">© 2024 Blue Seed Holdings. All rights reserved.</div>
         <div className="f-links">
           <Link to="/">Home</Link>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
         </div>
       </footer>
     </>

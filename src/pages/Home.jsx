@@ -71,11 +71,11 @@ export default function Home() {
             <p className="cc-desc">Intelligent freight matching and routing — connecting cargo owners with carriers through real-time visibility, smarter capacity utilization, and zero wasted runs.</p>
           </div>
           <div className="cc-right">
-            <a href="#" className="cc-link">
+            <button className="cc-link" type="button">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M4 11h14M11 4l7 7-7 7"/>
               </svg>
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -142,8 +142,8 @@ export default function Home() {
         <div className="f-logo">Blue<span>Seed</span></div>
         <div className="f-copy">© 2026 Blue Seed Holdings. All rights reserved.</div>
         <div className="f-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
         </div>
       </footer>
     </>
