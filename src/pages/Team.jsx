@@ -56,9 +56,9 @@ const ADVISORS = [
 ];
 
 const JOIN_TILES = [
-  { role: 'General Inquiry', type: 'Open Application', href: 'mailto:hello@blueseed.co' },
-  { role: 'Partner / Advisor', type: 'Strategic Role', href: 'mailto:ventures@blueseed.co' },
-  { role: 'Investor Relations', type: 'Capital & Partnerships', href: 'mailto:ventures@blueseed.co' },
+  { role: 'General Inquiry', type: 'Open Application', href: 'mailto:hello@blueseed.co.in' },
+  { role: 'Partner / Advisor', type: 'Strategic Role', href: 'mailto:ventures@blueseed.co.in' },
+  { role: 'Investor Relations', type: 'Capital & Partnerships', href: 'mailto:ventures@blueseed.co.in' },
 ];
 
 export default function Team() {
@@ -140,7 +140,7 @@ export default function Team() {
       {/* FOOTER */}
       <footer className="team-footer">
         <div className="f-logo">Blue<span>Seed</span></div>
-        <div className="f-copy">© 2024 Blue Seed Holdings. All rights reserved.</div>
+        <div className="f-copy">© 2026 Blue Seed Holdings. All rights reserved.</div>
         <div className="f-links">
           <Link to="/">Home</Link>
           <a href="/privacy">Privacy</a>

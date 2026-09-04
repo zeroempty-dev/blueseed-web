@@ -48,6 +48,15 @@ export default function Navbar({ forceScrolled = false }) {
           </li>
         ))}
         <li>
+          <Link to="/team" style={{
+            fontSize: '0.78rem', letterSpacing: '0.06em',
+            color: 'var(--ink-soft)', textDecoration: 'none', transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => e.target.style.color = 'var(--ink)'}
+          onMouseLeave={e => e.target.style.color = 'var(--ink-soft)'}
+          >Team</Link>
+        </li>
+        <li>
           <a href="/#contact" style={{
             padding: '9px 22px', background: 'var(--navy)', color: 'var(--cream)',
             fontSize: '0.74rem', letterSpacing: '0.1em', textDecoration: 'none',

@@ -71,11 +71,11 @@ export default function Home() {
             <p className="cc-desc">Intelligent freight matching and routing — connecting cargo owners with carriers through real-time visibility, smarter capacity utilization, and zero wasted runs.</p>
           </div>
           <div className="cc-right">
-            <button className="cc-link" type="button">
+            <a href="https://zeroempty.in/" target="_blank" rel="noopener noreferrer" className="cc-link">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M4 11h14M11 4l7 7-7 7"/>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -127,8 +127,8 @@ export default function Home() {
             <h2 className="contact-heading reveal rd1">Built for<br/><em>the long game.</em></h2>
             <p className="contact-body reveal rd2">Founders with bold ideas, investors seeking patient returns, potential partners — we want to hear from you.</p>
             <div className="contact-ctas reveal rd2">
-              <a href="mailto:hello@blueseed.co" className="hero-btn-primary">Reach Out</a>
-              <a href="mailto:ventures@blueseed.co" className="hero-btn-ghost">Investor Relations →</a>
+              <a href="mailto:hello@blueseed.co.in" className="hero-btn-primary">Reach Out</a>
+              <a href="mailto:ventures@blueseed.co.in" className="hero-btn-ghost">Investor Relations →</a>
             </div>
           </div>
           <div className="contact-right reveal rd2">
