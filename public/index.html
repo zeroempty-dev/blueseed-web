@@ -10,6 +10,16 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>BlueSeed</title>
+    <script>
+      // GitHub Pages SPA — restores the path that 404.html encoded as ?p=
+      (function() {
+        var redirect = window.location.search.slice(1);
+        if (redirect.startsWith('p=')) {
+          var path = decodeURIComponent(redirect.slice(2));
+          window.history.replaceState(null, null, path);
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
