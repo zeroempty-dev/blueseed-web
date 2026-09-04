@@ -23,13 +23,14 @@ const LEADERS = [
     ],
   },
   {
-    initials: '—',
-    name: 'Co-Founder',
-    title: 'Chief Operating Officer',
+    initials: 'RM',
+    name: 'Rajarathnam M.',
+    title: 'Co-Founder & Chief Operating Officer',
     bio: 'Oversees day-to-day operations across the portfolio, building the systems and teams that allow Blue Seed companies to execute at scale. Deep expertise in operational design and high-performance team building.',
     stats: [
       { label: 'Focus Area', val: 'Operations, Scaling' },
       { label: 'Based in', val: 'India' },
+      { label: 'Contact', val: 'rajarathnam@blueseed.co.in' },
     ],
   },
 ];
