@@ -127,7 +127,7 @@ export default function Home() {
             <h2 className="contact-heading reveal rd1">Built for<br/><em>the long game.</em></h2>
             <p className="contact-body reveal rd2">Founders with bold ideas, investors seeking patient returns, potential partners — we want to hear from you.</p>
             <div className="contact-ctas reveal rd2">
-              <a href="mailto:hello@blueseed.co.in" className="hero-btn-primary">Reach Out</a>
+              <a href="mailto:Contact@blueseed.co.in" className="hero-btn-primary">Reach Out</a>
               <a href="mailto:ventures@blueseed.co.in" className="hero-btn-ghost">Investor Relations →</a>
             </div>
           </div>

@@ -32,7 +32,7 @@ export default function TermsPage() {
           { title: 'Disclaimer', body: 'This website is provided for informational purposes only. Blue Seed Holdings makes no representations or warranties of any kind, express or implied, about the completeness or accuracy of the information on this site.' },
           { title: 'Limitation of Liability', body: 'To the fullest extent permitted by law, Blue Seed Holdings shall not be liable for any indirect, incidental, or consequential damages arising from your use of this website.' },
           { title: 'Changes to Terms', body: 'We reserve the right to modify these Terms of Use at any time. Continued use of the website after changes constitutes acceptance of the revised terms.' },
-          { title: 'Contact', body: 'For questions about these Terms, please contact us at hello@blueseed.co.in.' },
+          { title: 'Contact', body: 'For questions about these Terms, please contact us at Contact@blueseed.co.in.' },
         ].map(s => (
           <div key={s.title} style={{ marginBottom: 40 }}>
             <h2 style={{ fontFamily: 'var(--sans)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--ink)', marginBottom: 12, letterSpacing: '-0.01em' }}>{s.title}</h2>

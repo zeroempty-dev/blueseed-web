@@ -57,7 +57,7 @@ const ADVISORS = [
 ];
 
 const JOIN_TILES = [
-  { role: 'General Inquiry', type: 'Open Application', href: 'mailto:hello@blueseed.co.in' },
+  { role: 'General Inquiry', type: 'Open Application', href: 'mailto:Contact@blueseed.co.in' },
   { role: 'Partner / Advisor', type: 'Strategic Role', href: 'mailto:ventures@blueseed.co.in' },
   { role: 'Investor Relations', type: 'Capital & Partnerships', href: 'mailto:ventures@blueseed.co.in' },
 ];

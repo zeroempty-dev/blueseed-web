@@ -31,7 +31,7 @@ export default function PrivacyPage() {
           { title: 'How We Use Your Information', body: 'We use the information we collect to respond to your inquiries, communicate with you about our companies and initiatives, and improve our services. We do not sell or share your personal information with third parties for marketing purposes.' },
           { title: 'Data Retention', body: 'We retain personal information for as long as necessary to fulfil the purposes for which it was collected, or as required by applicable law.' },
           { title: 'Security', body: 'We implement reasonable technical and organizational measures to protect your personal information against unauthorized access, loss, or misuse.' },
-          { title: 'Contact Us', body: 'If you have questions about this Privacy Policy or our data practices, please contact us at privacy@blueseed.co.in.' },
+          { title: 'Contact Us', body: 'If you have questions about this Privacy Policy or our data practices, please contact us at Contact@blueseed.co.in.' },
         ].map(s => (
           <div key={s.title} style={{ marginBottom: 40 }}>
             <h2 style={{ fontFamily: 'var(--sans)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--ink)', marginBottom: 12, letterSpacing: '-0.01em' }}>{s.title}</h2>
