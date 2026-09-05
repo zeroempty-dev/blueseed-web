@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import HeroCanvas from '../components/HeroCanvas';
-import VideoSection from '../components/VideoSection';
 import { useReveal } from '../components/useReveal';
 import './Home.css';
 
@@ -42,9 +41,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      {/* ── VIDEO ── */}
-      <VideoSection />
 
       {/* ── STATEMENT ── */}
       <section className="statement-section">
