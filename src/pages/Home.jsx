@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import HeroCanvas from '../components/HeroCanvas';
+import VideoSection from '../components/VideoSection';
 import { useReveal } from '../components/useReveal';
 import './Home.css';
 
@@ -13,6 +15,7 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section className="hero">
+        <HeroCanvas />
         <div className="hero-inner">
           <p className="hero-eyebrow">Holding Company · Est. 2026</p>
           <p className="hero-lede">Every audacious dream starts at the root.</p>
@@ -39,6 +42,9 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* ── VIDEO ── */}
+      <VideoSection />
 
       {/* ── STATEMENT ── */}
       <section className="statement-section">
