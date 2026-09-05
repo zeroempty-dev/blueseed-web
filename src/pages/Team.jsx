@@ -12,8 +12,8 @@ const Arrow = ({ size = 16 }) => (
 
 const LEADERS = [
   {
-    initials: 'AS',
-    name: 'Amruth S.',
+    initials: 'AL',
+    name: 'Amruth Lakshman BL',
     title: 'Founder & CEO',
     bio: 'Amruth founded Blue Seed with the conviction that the physical world — how goods move, how supply chains work — is ripe for intelligent reinvention. He leads strategy, portfolio direction, and long-term vision across all Blue Seed companies.',
     stats: [
@@ -33,26 +33,41 @@ const LEADERS = [
       { label: 'Contact', val: 'rajarathnam@blueseed.co.in' },
     ],
   },
-];
-
-const ADVISORS = [
   {
-    initials: '—',
-    name: 'Industry Advisor',
-    title: 'Logistics & Supply Chain',
-    bio: 'Decades of experience scaling freight and logistics operations across South Asia. Provides portfolio companies with unmatched industry access and mentorship.',
+    initials: 'SG',
+    name: 'Shivam Giri',
+    title: 'Co-Founder',
+    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
+    stats: [
+      { label: 'Based in', val: 'India' },
+    ],
   },
   {
-    initials: '—',
-    name: 'Technology Advisor',
-    title: 'Product & Engineering',
-    bio: 'Former engineering leader at a top-tier technology company. Advises on product architecture, engineering culture, and building for infrastructure-grade reliability.',
+    initials: 'DS',
+    name: 'Dhinesh S',
+    title: 'Co-Founder',
+    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
+    stats: [
+      { label: 'Based in', val: 'India' },
+    ],
   },
   {
-    initials: '—',
-    name: 'Investor Advisor',
-    title: 'Capital & Governance',
-    bio: 'Brings institutional capital experience and governance best practices to the board. Focused on long-term value creation and responsible growth for portfolio companies.',
+    initials: 'TR',
+    name: 'Thungeshwaran R',
+    title: 'Co-Founder',
+    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
+    stats: [
+      { label: 'Based in', val: 'India' },
+    ],
+  },
+  {
+    initials: 'RS',
+    name: 'Ragularaj S',
+    title: 'Co-Founder',
+    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
+    stats: [
+      { label: 'Based in', val: 'India' },
+    ],
   },
 ];
 
@@ -102,21 +117,6 @@ export default function Team() {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* ADVISORS */}
-      <div className="team-section">
-        <p className="ts-label">Advisors &amp; Board</p>
-        <div className="advisor-grid">
-          {ADVISORS.map((a, i) => (
-            <div key={a.name} className={`advisor-card reveal rd${i}`}>
-              <div className="ac-avatar">{a.initials}</div>
-              <div className="ac-name">{a.name}</div>
-              <div className="ac-title">{a.title}</div>
-              <p className="ac-bio">{a.bio}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* JOIN */}
