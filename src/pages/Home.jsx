@@ -62,14 +62,16 @@ export default function Home() {
         </div>
         <div className="company-card reveal rd1">
           <div className="cc-left">
-            <div className="cc-badge">ZE</div>
+            <div className="cc-badge">
+              <img src="/zeroempty-logo.svg" alt="ZeroEmpty" className="cc-badge-logo" />
+            </div>
             <div className="cc-meta">
               <span className="cc-num">01</span>
               <span className="cc-sector">Logistics & Freight</span>
             </div>
           </div>
           <div className="cc-body">
-            <h3 className="cc-name">ZeroEmpty</h3>
+            <img src="/zeroempty-logo.svg" alt="ZeroEmpty" className="cc-logo" />
             <p className="cc-desc">Intelligent freight matching and routing — connecting cargo owners with carriers through real-time visibility, smarter capacity utilization, and zero wasted runs.</p>
           </div>
           <div className="cc-right">
