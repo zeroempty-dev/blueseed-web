@@ -159,10 +159,8 @@
 .cc-badge {
   width: 60px; height: 60px; background: var(--navy);
   display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-.cc-badge-logo {
-  width: 100%; height: 100%; object-fit: cover; object-position: left center;
+  font-family: var(--sans); font-size: 0.9rem; font-weight: 800;
+  color: var(--gold-lt); letter-spacing: 0.06em;
 }
 .cc-meta { display: flex; flex-direction: column; gap: 4px; }
 .cc-num { font-size: 0.62rem; letter-spacing: 0.18em; color: var(--ink-soft); }
