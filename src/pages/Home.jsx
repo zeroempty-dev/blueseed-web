@@ -62,9 +62,8 @@ export default function Home() {
         </div>
         <div className="company-card reveal rd1">
           <div className="cc-left">
-            <div className="cc-badge">ZE</div>
+            <div className="cc-badge">01</div>
             <div className="cc-meta">
-              <span className="cc-num">01</span>
               <span className="cc-sector">Logistics & Freight</span>
             </div>
           </div>
