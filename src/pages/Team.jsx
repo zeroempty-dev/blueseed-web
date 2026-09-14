@@ -74,7 +74,7 @@ const LEADERS = [
 const JOIN_TILES = [
   { role: 'General Inquiry', type: 'Open Application', href: 'mailto:Contact@blueseed.co.in' },
   { role: 'Partner / Advisor', type: 'Strategic Role', href: 'mailto:ventures@blueseed.co.in' },
-  { role: 'Investor Relations', type: 'Capital & Partnerships', href: 'mailto:ventures@blueseed.co.in' },
+  { role: 'Contact@blueseed.co.in', type: 'Get in Touch', href: 'mailto:Contact@blueseed.co.in' },
 ];
 
 export default function Team() {

@@ -6,7 +6,15 @@ import './Home.css';
 
 export default function Home() {
   useReveal();
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   return (
     <>
