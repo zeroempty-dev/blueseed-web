@@ -64,7 +64,7 @@ export default function Navbar({ forceScrolled = false }) {
           }}
           onMouseEnter={e => e.target.style.background = 'var(--navy-mid)'}
           onMouseLeave={e => e.target.style.background = 'var(--navy)'}
-          >Investors</a>
+          >Contact</a>
         </li>
       </ul>
     </nav>

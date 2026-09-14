@@ -137,7 +137,7 @@ export default function Home() {
             <p className="contact-body reveal rd2">Founders with bold ideas, investors seeking patient returns, potential partners — we want to hear from you.</p>
             <div className="contact-ctas reveal rd2">
               <a href="mailto:Contact@blueseed.co.in" className="hero-btn-primary">Reach Out</a>
-              <a href="mailto:ventures@blueseed.co.in" className="hero-btn-ghost">Investor Relations →</a>
+              <a href="/team" className="hero-btn-ghost">Meet the Team →</a>
             </div>
           </div>
           <div className="contact-right reveal rd2">

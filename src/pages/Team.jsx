@@ -17,7 +17,7 @@ const LEADERS = [
     title: 'Founder & CEO',
     bio: 'Amruth founded Blue Seed with the conviction that the physical world — how goods move, how supply chains work — is ripe for intelligent reinvention. He leads strategy, portfolio direction, and long-term vision across all Blue Seed companies.',
     stats: [
-      { label: 'Focus Area', val: 'Logistics, Strategy' },
+      { label: 'Focus Area', val: 'Strategy, Portfolio' },
       { label: 'Based in', val: 'India' },
       { label: 'Portfolio Role', val: 'ZeroEmpty — Founder' },
     ],
@@ -33,48 +33,18 @@ const LEADERS = [
       { label: 'Contact', val: 'rajarathnam@blueseed.co.in' },
     ],
   },
-  {
-    initials: 'SG',
-    name: 'Shivam Giri',
-    title: 'Co-Founder',
-    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
-    stats: [
-      { label: 'Based in', val: 'India' },
-    ],
-  },
-  {
-    initials: 'DS',
-    name: 'Dhinesh S',
-    title: 'Co-Founder',
-    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
-    stats: [
-      { label: 'Based in', val: 'India' },
-    ],
-  },
-  {
-    initials: 'TR',
-    name: 'Thungeshwaran R',
-    title: 'Co-Founder',
-    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
-    stats: [
-      { label: 'Based in', val: 'India' },
-    ],
-  },
-  {
-    initials: 'RS',
-    name: 'Ragularaj S',
-    title: 'Co-Founder',
-    bio: 'Co-founder of Blue Seed Holdings, committed to building companies that solve real-world problems at scale.',
-    stats: [
-      { label: 'Based in', val: 'India' },
-    ],
-  },
+];
+
+const COFOUNDERS = [
+  { initials: 'SG', name: 'Shivam Giri' },
+  { initials: 'DS', name: 'Dhinesh S' },
+  { initials: 'TR', name: 'Thungeshwaran R' },
+  { initials: 'RS', name: 'Ragularaj S' },
 ];
 
 const JOIN_TILES = [
   { role: 'General Inquiry', type: 'Open Application', href: 'mailto:Contact@blueseed.co.in' },
   { role: 'Partner / Advisor', type: 'Strategic Role', href: 'mailto:ventures@blueseed.co.in' },
-  { role: 'Contact@blueseed.co.in', type: 'Get in Touch', href: 'mailto:Contact@blueseed.co.in' },
 ];
 
 export default function Team() {
@@ -119,11 +89,25 @@ export default function Team() {
         ))}
       </div>
 
+      {/* CO-FOUNDERS GRID */}
+      <div className="team-section">
+        <p className="ts-label">Co-Founders</p>
+        <div className="cofounder-grid">
+          {COFOUNDERS.map((c, i) => (
+            <div key={c.name} className={`cofounder-card reveal rd${i}`}>
+              <div className="cf-avatar">{c.initials}</div>
+              <div className="cf-name">{c.name}</div>
+              <div className="cf-title">Co-Founder</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* JOIN */}
       <div className="join-section">
         <div>
           <h2 className="join-title">Want to help us<br/>build the <span className="accent">next one?</span></h2>
-          <p className="join-body">We're always looking for operators, builders, and thinkers who want to work on hard problems at the intersection of technology and physical infrastructure.</p>
+          <p className="join-body">We're always looking for operators, builders, and thinkers who want to work on hard problems across industries where execution and ambition matter most.</p>
         </div>
         <div className="join-right">
           {JOIN_TILES.map(t => (

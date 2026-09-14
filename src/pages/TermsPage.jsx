@@ -1,26 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 import '../styles/globals.css';
 
 export default function TermsPage() {
   return (
     <>
-      <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 56px', height: 68,
-        background: 'rgba(253,252,250,0.95)',
-        borderBottom: '1px solid var(--cream-dk)',
-        backdropFilter: 'blur(16px)',
-      }}>
-        <Link to="/" style={{
-          fontFamily: 'var(--sans)', fontSize: '1rem', fontWeight: 700,
-          letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: '#000', textDecoration: 'none',
-        }}>
-          Blue<span style={{ color: 'var(--blue)' }}>Seed</span>
-        </Link>
-      </nav>
+      <Navbar forceScrolled />
 
       <div style={{ paddingTop: 120, paddingBottom: 80, paddingLeft: 80, paddingRight: 80, maxWidth: 800, margin: '0 auto' }}>
         <p style={{ fontSize: '0.68rem', letterSpacing: '0.26em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 24 }}>Legal</p>
